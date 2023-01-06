@@ -1,0 +1,148 @@
+[gd_scene load_steps=17 format=3 uid="uid://ulsxt1a5abx6"]
+
+[ext_resource type="Script" path="res://GameField.gd" id="1_q6o8f"]
+[ext_resource type="PackedScene" uid="uid://bspccqujsckg5" path="res://avatar.tscn" id="2_rocuv"]
+[ext_resource type="Script" path="res://FightCountdown.gd" id="3_caofy"]
+[ext_resource type="PackedScene" uid="uid://7a5gfate8wtl" path="res://debris.tscn" id="3_ti1um"]
+[ext_resource type="Script" path="res://Websocket.gd" id="4_a5hbw"]
+[ext_resource type="Texture2D" uid="uid://coy5l657gyfo1" path="res://dust1.png" id="5_2f04m"]
+[ext_resource type="Texture2D" uid="uid://cfcnwaf508skk" path="res://dust2.png" id="6_4y3uj"]
+[ext_resource type="Texture2D" uid="uid://dxpx5472q53sv" path="res://cloud.png" id="7_15pff"]
+[ext_resource type="Texture2D" uid="uid://dnixgcn1ctk3i" path="res://cloud2.png" id="8_0qhby"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jssoe"]
+size = Vector2(48, 48)
+
+[sub_resource type="Gradient" id="Gradient_o4xct"]
+offsets = PackedFloat32Array(0.0215827, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rda41"]
+gradient = SubResource("Gradient_o4xct")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticlesMaterial_kg2xy"]
+particle_flag_disable_z = true
+spread = 69.39
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 84.11
+initial_velocity_max = 150.71
+orbit_velocity_min = -570.1
+orbit_velocity_max = 37.38
+linear_accel_min = -13.09
+linear_accel_max = 15.88
+tangential_accel_min = -15.0
+tangential_accel_max = 15.0
+damping_min = 22.43
+damping_max = 56.08
+angle_min = -262.4
+scale_min = 0.05
+scale_max = 0.5
+color_ramp = SubResource("GradientTexture1D_rda41")
+
+[sub_resource type="Gradient" id="Gradient_d5adt"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k1yva"]
+gradient = SubResource("Gradient_d5adt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticlesMaterial_3bef4"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.2
+scale_max = 0.2
+color_ramp = SubResource("GradientTexture1D_k1yva")
+
+[node name="GameField" type="Node2D"]
+script = ExtResource("1_q6o8f")
+avatars = ExtResource("2_rocuv")
+debris = ExtResource("3_ti1um")
+
+[node name="KnockOutTimer" type="Timer" parent="."]
+
+[node name="FightCountdown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+script = ExtResource("3_caofy")
+
+[node name="CenterPosition" type="Marker2D" parent="."]
+position = Vector2(512, 320)
+
+[node name="Area2D" type="Area2D" parent="CenterPosition"]
+collision_layer = 2
+collision_mask = 2
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterPosition/Area2D"]
+shape = SubResource("RectangleShape2D_jssoe")
+
+[node name="DustCloud1" type="GPUParticles2D" parent="CenterPosition"]
+z_index = 5
+scale = Vector2(1.1, 1.1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticlesMaterial_kg2xy")
+texture = ExtResource("5_2f04m")
+lifetime = 2.0
+speed_scale = 3.06
+explosiveness = 0.05
+randomness = 0.05
+
+[node name="DustCloud2" type="GPUParticles2D" parent="CenterPosition"]
+z_index = 5
+scale = Vector2(1.1, 1.1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticlesMaterial_kg2xy")
+texture = ExtResource("6_4y3uj")
+lifetime = 2.0
+speed_scale = 3.06
+explosiveness = 0.05
+randomness = 0.05
+
+[node name="Puff1" type="GPUParticles2D" parent="CenterPosition"]
+emitting = false
+amount = 2
+process_material = SubResource("ParticlesMaterial_3bef4")
+texture = ExtResource("7_15pff")
+
+[node name="Puff2" type="GPUParticles2D" parent="CenterPosition"]
+emitting = false
+amount = 2
+process_material = SubResource("ParticlesMaterial_3bef4")
+texture = ExtResource("8_0qhby")
+
+[node name="Websocket" type="Node" parent="."]
+script = ExtResource("4_a5hbw")
+
+[node name="Ping-Pong" type="Timer" parent="Websocket"]
+wait_time = 60.0
+autostart = true
+
+[node name="WalkTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="DebugTimer" type="Timer" parent="."]
+
+[node name="DebrisTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AutoStartTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="KnockOutTimer" to="." method="_on_spwan_timer_timeout"]
+[connection signal="timeout" from="FightCountdown" to="." method="_on_fight_countdown_timeout"]
+[connection signal="area_entered" from="CenterPosition/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="CenterPosition/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="connected" from="Websocket" to="." method="_on_websocket_connected"]
+[connection signal="timeout" from="Websocket/Ping-Pong" to="Websocket" method="_on_ping_pong_timeout"]
+[connection signal="timeout" from="WalkTimer" to="." method="_on_walk_timer_timeout"]
+[connection signal="timeout" from="DebugTimer" to="." method="_on_debug_timer_timeout"]
+[connection signal="timeout" from="DebrisTimer" to="." method="_on_debris_timer_timeout"]
+[connection signal="timeout" from="AutoStartTimer" to="." method="_on_auto_start_timer_timeout"]
