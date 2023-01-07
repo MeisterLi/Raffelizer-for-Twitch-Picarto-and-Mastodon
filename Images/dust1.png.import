@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbwe8hhcnjquy"
-path="res://.godot/imported/morningstar.png-eba395741d933fe95227088143392ba8.ctex"
+uid="uid://coy5l657gyfo1"
+path="res://.godot/imported/dust1.png-6e337d4b7d6bf6dcf1508ff5390e486e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://morningstar.png"
-dest_files=["res://.godot/imported/morningstar.png-eba395741d933fe95227088143392ba8.ctex"]
+source_file="res://Images/dust1.png"
+dest_files=["res://.godot/imported/dust1.png-6e337d4b7d6bf6dcf1508ff5390e486e.ctex"]
 
 [params]
 

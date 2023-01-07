@@ -1,14 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://ulsxt1a5abx6"]
+[gd_scene load_steps=17 format=3 uid="uid://cwuv10v00p6ag"]
 
 [ext_resource type="Script" path="res://GameField.gd" id="1_q6o8f"]
-[ext_resource type="PackedScene" uid="uid://bspccqujsckg5" path="res://avatar.tscn" id="2_rocuv"]
+[ext_resource type="PackedScene" uid="uid://ck160awi55ogk" path="res://avatar.tscn" id="2_rocuv"]
 [ext_resource type="Script" path="res://FightCountdown.gd" id="3_caofy"]
-[ext_resource type="PackedScene" uid="uid://7a5gfate8wtl" path="res://debris.tscn" id="3_ti1um"]
+[ext_resource type="PackedScene" uid="uid://3y8qoyj1eg6d" path="res://debris.tscn" id="3_ti1um"]
 [ext_resource type="Script" path="res://Websocket.gd" id="4_a5hbw"]
-[ext_resource type="Texture2D" uid="uid://coy5l657gyfo1" path="res://dust1.png" id="5_2f04m"]
-[ext_resource type="Texture2D" uid="uid://cfcnwaf508skk" path="res://dust2.png" id="6_4y3uj"]
-[ext_resource type="Texture2D" uid="uid://dxpx5472q53sv" path="res://cloud.png" id="7_15pff"]
-[ext_resource type="Texture2D" uid="uid://dnixgcn1ctk3i" path="res://cloud2.png" id="8_0qhby"]
+[ext_resource type="Texture2D" uid="uid://coy5l657gyfo1" path="res://Images/dust1.png" id="5_e4vak"]
+[ext_resource type="Texture2D" uid="uid://cfcnwaf508skk" path="res://Images/dust2.png" id="6_4a2ao"]
+[ext_resource type="Texture2D" uid="uid://dxpx5472q53sv" path="res://Images/cloud.png" id="7_73a47"]
+[ext_resource type="Texture2D" uid="uid://dnixgcn1ctk3i" path="res://Images/cloud2.png" id="8_311kf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jssoe"]
 size = Vector2(48, 48)
@@ -87,7 +87,7 @@ scale = Vector2(1.1, 1.1)
 emitting = false
 amount = 4
 process_material = SubResource("ParticlesMaterial_kg2xy")
-texture = ExtResource("5_2f04m")
+texture = ExtResource("5_e4vak")
 lifetime = 2.0
 speed_scale = 3.06
 explosiveness = 0.05
@@ -99,7 +99,7 @@ scale = Vector2(1.1, 1.1)
 emitting = false
 amount = 4
 process_material = SubResource("ParticlesMaterial_kg2xy")
-texture = ExtResource("6_4y3uj")
+texture = ExtResource("6_4a2ao")
 lifetime = 2.0
 speed_scale = 3.06
 explosiveness = 0.05
@@ -109,13 +109,13 @@ randomness = 0.05
 emitting = false
 amount = 2
 process_material = SubResource("ParticlesMaterial_3bef4")
-texture = ExtResource("7_15pff")
+texture = ExtResource("7_73a47")
 
 [node name="Puff2" type="GPUParticles2D" parent="CenterPosition"]
 emitting = false
 amount = 2
 process_material = SubResource("ParticlesMaterial_3bef4")
-texture = ExtResource("8_0qhby")
+texture = ExtResource("8_311kf")
 
 [node name="Websocket" type="Node" parent="."]
 script = ExtResource("4_a5hbw")

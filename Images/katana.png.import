@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csrt2xku1p6u3"
-path="res://.godot/imported/fryingpan.png-a01be9f98f3376bc6d999c03da0cd76d.ctex"
+uid="uid://dig2ccnf4oovb"
+path="res://.godot/imported/katana.png-3cb12e656c0ea8073611ff5f4b142160.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://fryingpan.png"
-dest_files=["res://.godot/imported/fryingpan.png-a01be9f98f3376bc6d999c03da0cd76d.ctex"]
+source_file="res://Images/katana.png"
+dest_files=["res://.godot/imported/katana.png-3cb12e656c0ea8073611ff5f4b142160.ctex"]
 
 [params]
 

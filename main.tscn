@@ -1,10 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c4tnrgplsoony"]
+[gd_scene load_steps=7 format=3 uid="uid://b6lm2plhnbubg"]
 
-[ext_resource type="PackedScene" uid="uid://ulsxt1a5abx6" path="res://game_field.tscn" id="1_jmxeg"]
+[ext_resource type="PackedScene" uid="uid://cwuv10v00p6ag" path="res://game_field.tscn" id="1_jmxeg"]
 [ext_resource type="Script" path="res://main.gd" id="1_v2c83"]
 [ext_resource type="PackedScene" uid="uid://bou3d0fyt567u" path="res://ui.tscn" id="2_g4yd0"]
 [ext_resource type="PackedScene" uid="uid://bavch4mqab5ei" path="res://settings.tscn" id="2_ikc11"]
-[ext_resource type="Texture2D" uid="uid://cjqpqyyshhhje" path="res://battlefield.png" id="5_ps1ho"]
+[ext_resource type="Texture2D" uid="uid://cjqpqyyshhhje" path="res://Images/battlefield.png" id="5_utxbf"]
 [ext_resource type="Script" path="res://Originaltournament.gd" id="6_pknah"]
 
 [node name="Main" type="Node"]
@@ -32,7 +32,7 @@ scroll_ignore_camera_zoom = true
 
 [node name="Originaltournament" type="Sprite2D" parent="ParallaxBackground"]
 position = Vector2(512, 300)
-texture = ExtResource("5_ps1ho")
+texture = ExtResource("5_utxbf")
 script = ExtResource("6_pknah")
 
 [connection signal="no_config" from="." to="MainUi" method="_on_main_no_config"]

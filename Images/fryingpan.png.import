@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcyebtqk6jqbk"
-path="res://.godot/imported/newspaper.png-42832c1453704a35379a5d47bcc455bb.ctex"
+uid="uid://csrt2xku1p6u3"
+path="res://.godot/imported/fryingpan.png-17c267700e1bb48fd900ffdab88e6f17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://newspaper.png"
-dest_files=["res://.godot/imported/newspaper.png-42832c1453704a35379a5d47bcc455bb.ctex"]
+source_file="res://Images/fryingpan.png"
+dest_files=["res://.godot/imported/fryingpan.png-17c267700e1bb48fd900ffdab88e6f17.ctex"]
 
 [params]
 

@@ -18,7 +18,7 @@ func start():
 func _select_sprite():
 	var all_weapons = ["bat", "katana", "morningstar", "raygun", "brick", "foldingchair", "bomb", "newspaper", "fryingpan", "rollingpin", "bottle"]
 	var selectedWeapon = all_weapons[randi() % all_weapons.size()]
-	var weapon_texture = "res://%s.png" % selectedWeapon
+	var weapon_texture = "res://Images/%s.png" % selectedWeapon
 	weapon_texture = load(weapon_texture)
 	texture = weapon_texture
 	

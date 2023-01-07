@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://7a5gfate8wtl"]
+[gd_scene load_steps=5 format=3 uid="uid://3y8qoyj1eg6d"]
 
-[ext_resource type="Texture2D" uid="uid://dcyebtqk6jqbk" path="res://newspaper.png" id="1_t7uhr"]
+[ext_resource type="Texture2D" uid="uid://dcyebtqk6jqbk" path="res://Images/newspaper.png" id="1_tuf6u"]
 [ext_resource type="Script" path="res://debris.gd" id="2_cr2re"]
 
 [sub_resource type="Animation" id="Animation_ophy1"]
@@ -27,7 +27,7 @@ _data = {
 
 [node name="Debris" type="Sprite2D"]
 rotation = 4.71239
-texture = ExtResource("1_t7uhr")
+texture = ExtResource("1_tuf6u")
 script = ExtResource("2_cr2re")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

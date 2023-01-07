@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dig2ccnf4oovb"
-path="res://.godot/imported/katana.png-fdae760d8e899d57d13622ea98e83a10.ctex"
+uid="uid://ckpgp78s74ehu"
+path="res://.godot/imported/brick.png-9635e18eb138dd573e571fcfa8a3483b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://katana.png"
-dest_files=["res://.godot/imported/katana.png-fdae760d8e899d57d13622ea98e83a10.ctex"]
+source_file="res://Images/brick.png"
+dest_files=["res://.godot/imported/brick.png-9635e18eb138dd573e571fcfa8a3483b.ctex"]
 
 [params]
 

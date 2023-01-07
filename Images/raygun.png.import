@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4ea5dprp8l8t"
-path="res://.godot/imported/rollingpin.png-4c322bea9ac673d3b4a3f1ba699652d4.ctex"
+uid="uid://cut4as0jy8shg"
+path="res://.godot/imported/raygun.png-ffe46426fe96ebc742b9fa7da0513d82.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://rollingpin.png"
-dest_files=["res://.godot/imported/rollingpin.png-4c322bea9ac673d3b4a3f1ba699652d4.ctex"]
+source_file="res://Images/raygun.png"
+dest_files=["res://.godot/imported/raygun.png-ffe46426fe96ebc742b9fa7da0513d82.ctex"]
 
 [params]
 

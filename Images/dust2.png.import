@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddo65uqpg4vhm"
-path="res://.godot/imported/particles-flipbook.png-1df09d11525f2a225c1a3e377b3c29e2.ctex"
+uid="uid://cfcnwaf508skk"
+path="res://.godot/imported/dust2.png-253b205fb1e9155cd62bb1320c82c1b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://particles-flipbook.png"
-dest_files=["res://.godot/imported/particles-flipbook.png-1df09d11525f2a225c1a3e377b3c29e2.ctex"]
+source_file="res://Images/dust2.png"
+dest_files=["res://.godot/imported/dust2.png-253b205fb1e9155cd62bb1320c82c1b1.ctex"]
 
 [params]
 

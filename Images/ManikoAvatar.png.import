@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnixgcn1ctk3i"
-path="res://.godot/imported/cloud2.png-4a07457f5cbc42e02ba3ec3fd4bbbbbc.ctex"
+uid="uid://ds2d2bxa40tke"
+path="res://.godot/imported/ManikoAvatar.png-e28206c721cdba1644a9bb5a02aff32b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://cloud2.png"
-dest_files=["res://.godot/imported/cloud2.png-4a07457f5cbc42e02ba3ec3fd4bbbbbc.ctex"]
+source_file="res://Images/ManikoAvatar.png"
+dest_files=["res://.godot/imported/ManikoAvatar.png-e28206c721cdba1644a9bb5a02aff32b.ctex"]
 
 [params]
 

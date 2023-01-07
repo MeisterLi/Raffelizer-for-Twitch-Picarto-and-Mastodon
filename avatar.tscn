@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://bspccqujsckg5"]
+[gd_scene load_steps=22 format=3 uid="uid://y8lobffg4rlx"]
 
 [ext_resource type="Script" path="res://avatar.gd" id="1_1nqug"]
-[ext_resource type="Texture2D" uid="uid://c33j7iks8ltsr" path="res://icon.png" id="2_fomm7"]
-[ext_resource type="Texture2D" uid="uid://ddo65uqpg4vhm" path="res://particles-flipbook.png" id="3_fnqb1"]
-[ext_resource type="Texture2D" uid="uid://ddjj4bkhkfdbe" path="res://spritesheet.png" id="5_aeil2"]
+[ext_resource type="Texture2D" uid="uid://c33j7iks8ltsr" path="res://Images/icon.png" id="2_hxsqf"]
+[ext_resource type="Texture2D" uid="uid://ddo65uqpg4vhm" path="res://Images/particles-flipbook.png" id="3_b4mer"]
+[ext_resource type="Texture2D" uid="uid://ddjj4bkhkfdbe" path="res://Images/spritesheet.png" id="4_5qsy0"]
 
 [sub_resource type="Animation" id="Animation_b3e7f"]
 resource_name = "Backflip"
@@ -261,19 +261,19 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yso4r"]
-atlas = ExtResource("5_aeil2")
+atlas = ExtResource("4_5qsy0")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u13wt"]
-atlas = ExtResource("5_aeil2")
+atlas = ExtResource("4_5qsy0")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5uwkf"]
-atlas = ExtResource("5_aeil2")
+atlas = ExtResource("4_5qsy0")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qsbvh"]
-atlas = ExtResource("5_aeil2")
+atlas = ExtResource("4_5qsy0")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a4hyt"]
@@ -294,7 +294,7 @@ metadata/_edit_group_ = true
 [node name="AvatarSprite" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="AvatarSprite"]
-texture = ExtResource("2_fomm7")
+texture = ExtResource("2_hxsqf")
 
 [node name="Label" type="Label" parent="AvatarSprite/Sprite2D"]
 anchors_preset = 15
@@ -332,7 +332,7 @@ scale = Vector2(0.2, 0.2)
 emitting = false
 amount = 2
 process_material = SubResource("ParticlesMaterial_rcj22")
-texture = ExtResource("3_fnqb1")
+texture = ExtResource("3_b4mer")
 randomness = 0.07
 
 [node name="DodgeTimer" type="Timer" parent="."]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgsd0461xb510"
-path="res://.godot/imported/foldingchair.png-78c93435d0a50953b661c7429a8bbccc.ctex"
+uid="uid://c33j7iks8ltsr"
+path="res://.godot/imported/icon.png-5c54608cdf98940b04ad240121483c81.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://foldingchair.png"
-dest_files=["res://.godot/imported/foldingchair.png-78c93435d0a50953b661c7429a8bbccc.ctex"]
+source_file="res://Images/icon.png"
+dest_files=["res://.godot/imported/icon.png-5c54608cdf98940b04ad240121483c81.ctex"]
 
 [params]
 

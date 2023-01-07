@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjqpqyyshhhje"
-path="res://.godot/imported/battlefield.png-785ee78c5e489af48fd69157c5b4752c.ctex"
+uid="uid://c71x1slri2ygo"
+path="res://.godot/imported/bomb.png-113519cfec30a792af2ffe492a0e226d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://battlefield.png"
-dest_files=["res://.godot/imported/battlefield.png-785ee78c5e489af48fd69157c5b4752c.ctex"]
+source_file="res://Images/bomb.png"
+dest_files=["res://.godot/imported/bomb.png-113519cfec30a792af2ffe492a0e226d.ctex"]
 
 [params]
 

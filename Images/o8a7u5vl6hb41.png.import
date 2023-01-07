@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cut4as0jy8shg"
-path="res://.godot/imported/raygun.png-b2690ceab0587441dbd6a0830e75c817.ctex"
+uid="uid://glyawusdynaq"
+path="res://.godot/imported/o8a7u5vl6hb41.png-40e82f68c32892c03cbc087f1745ebc3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://raygun.png"
-dest_files=["res://.godot/imported/raygun.png-b2690ceab0587441dbd6a0830e75c817.ctex"]
+source_file="res://Images/o8a7u5vl6hb41.png"
+dest_files=["res://.godot/imported/o8a7u5vl6hb41.png-40e82f68c32892c03cbc087f1745ebc3.ctex"]
 
 [params]
 

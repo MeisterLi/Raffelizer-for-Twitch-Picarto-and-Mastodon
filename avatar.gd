@@ -124,7 +124,7 @@ func update_texture(texture):
 func arm():
 	var all_weapons = ["bat", "katana", "morningstar", "raygun", "brick", "foldingchair", "bomb", "newspaper", "fryingpan", "rollingpin", "bottle"]
 	var selectedWeapon = all_weapons[randi() % all_weapons.size()]
-	var weapon_texture = "res://%s.png" % selectedWeapon
+	var weapon_texture = "res://Images/%s.png" % selectedWeapon
 	weapon_texture = load(weapon_texture)
 	weapon.texture = weapon_texture
 	weapon.set_rotation(randf_range(-0.1, 0.6))
