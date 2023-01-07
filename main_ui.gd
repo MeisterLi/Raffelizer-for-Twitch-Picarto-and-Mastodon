@@ -18,6 +18,7 @@ var _json = JSON.new()
 var all_followers = []
 var all_faves = []
 var all_boosts = []
+var request_server = ""
 
 enum states {SETTINGS, INPUT_WORD, MASTODON_AUTORUN, WAIT_FOR_START, WAIT_FOR_CONNECTION, GAME_PLAYING, END}
 
@@ -85,11 +86,12 @@ func _fetch_toot(url, context = false, reblogs = false, faved = false):
 	var result = regex.search(url)
 	if !result:
 		print("Unable to parse Toot URL!")
-		
+		settings.set_error("Unable to parse Toot URL!")
 		return
 	var server = result.get_string(1)
 	var toot_id = result.get_string(2)
-	var request_url = "https://" + server + "/api/v1/statuses/" + toot_id
+	request_server = "https://" + server + "/api/v1/"
+	var request_url = request_server + "statuses/" + toot_id
 	if context:
 		request_url += "/context"
 	elif reblogs:
@@ -110,7 +112,7 @@ func _fetch_toot(url, context = false, reblogs = false, faved = false):
 	var err = http_request.request(request_url)
 	
 func _fetch_followers(id):
-	var url = "https://meow.social/api/v1/accounts/" + id + "/followers"
+	var url = request_server + "accounts/" + id + "/followers"
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(self._followers_fetched)
@@ -158,7 +160,7 @@ func _toot_faves_fetched(results, response_code, headers, body):
 	_evaluate_participants()
 
 func _fetch_user_details(id):
-	var url = "https://meow.social/api/v1/accounts/" + id
+	var url = request_server + "accounts/" + id
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(self._user_fetched)
@@ -188,6 +190,9 @@ func _evaluate_participants():
 				_fetch_user_details(follower)
 	if following and not boosts and not faved:
 		for follower in all_followers:
+			_fetch_user_details(follower)
+	if following and boosts and not faved:
+		for follower in all_boosts:
 			_fetch_user_details(follower)
 	if not following and boosts and faved:
 		for follower in all_boosts:

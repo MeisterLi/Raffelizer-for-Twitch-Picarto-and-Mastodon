@@ -53,19 +53,66 @@ func _on_mastadon_pressed():
 	_change_to_state(states.INPUT_MASTODON)
 	mode = modes.MASTODON
 	
+func set_error(error):
+	$ErrorText.set_error(error)
+	
 func _on_button_pressed():
+	var input = $InputField2.get_text().strip_edges(true, true)
+	var placeholder = $InputField2.get_placeholder().strip_edges(true, true)
 	if current_state == states.INPUT_TWITCH:
-		twitch_name = $InputField2.get_text()
+		if $InputField2.get_text() != "" && input == "":
+			print("Please put in a valid username")
+			set_error("Please put in a valid username")
+			return
+		elif input == "":
+			twitch_name = placeholder
+		else:
+			twitch_name = input
 	elif current_state == states.INPUT_PICARTO:
-		picarto_url = $InputField2.get_text()
+		if $InputField2.get_text() != "" && input == "":
+			print("Please put in a valid url")
+			set_error("Please put in a valid url")
+			return
+		elif input == "":
+			picarto_url = placeholder
+		else:
+			if !_validate_url(input, false):
+				set_error("Please put in a valid picarto Websocket URL!")
+				return
+			picarto_url = input
 	elif current_state == states.INPUT_MASTODON:
-		toot_url = $InputField2.get_text()
+		if !_validate_url(input, true):
+			set_error("Please put in a valid toot URL")
+			return
+		else:
+			toot_url = input
 	config.set_value("config", "picarto_url", picarto_url)
 	config.set_value("config", "twitch_name", twitch_name)
 	var err = config.save("user://raffelizer.ini")
 	if err != OK:
 		print(err)
 	$StatusLabel.text = "Saved!"
+	
+func _validate_url(url, mastodon):
+	print("Validating url")
+	var regex = RegEx.new()
+	if (mastodon):
+		regex.compile("https:\\/\\/(.*)\\/@.*\\/(.*)")
+		var result = regex.search(url)
+		if !result:
+			return false
+		else:
+			if result.get_string(1) != "" && result.get_string(2) != "":
+				return true
+			else:
+				return false
+	else:
+		regex.compile("wss:\\/\\/chat\\.picarto\\.tv\\/chat\\/token=(.*)")
+		var result = regex.search(url)
+		if !result:
+			return false
+		else:
+			return true
 	
 func _on_exit_pressed():
 	if current_state == states.SETTINGS:

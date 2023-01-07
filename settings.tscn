@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bavch4mqab5ei"]
+[gd_scene load_steps=3 format=3 uid="uid://bavch4mqab5ei"]
 
 [ext_resource type="Script" path="res://SettingSingleton.gd" id="1_akddt"]
+[ext_resource type="Script" path="res://ErrorText.gd" id="2_p7cg5"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -273,6 +274,19 @@ offset_bottom = 63.0
 theme_override_font_sizes/font_size = 28
 text = "Settings"
 
+[node name="ErrorText" type="Label" parent="."]
+offset_top = 96.0
+offset_right = 1024.0
+offset_bottom = 160.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+script = ExtResource("2_p7cg5")
+
+[node name="ErrorTime" type="Timer" parent="ErrorText"]
+wait_time = 4.0
+
 [connection signal="toggled" from="SettingsPanel/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="toggled" from="SettingsPanel/TransparencyMode" to="." method="_on_transparency_mode_toggled"]
 [connection signal="pressed" from="ModeSelect/Twitch" to="." method="_on_twitch_pressed"]
@@ -287,3 +301,4 @@ text = "Settings"
 [connection signal="timeout" from="FightCooldown" to="." method="_on_fight_cooldown_timeout"]
 [connection signal="timeout" from="AutoTimer" to="." method="_on_auto_timer_timeout"]
 [connection signal="pressed" from="SettingEntry" to="." method="_on_setting_entry_pressed"]
+[connection signal="timeout" from="ErrorText/ErrorTime" to="ErrorText" method="_on_error_time_timeout"]

@@ -105,29 +105,28 @@ func knock_out_loser():
 func fight():
 	spawned_avatars = get_tree().get_nodes_in_group("avatar")
 	print("all spawned avatars" + str(spawned_avatars.size()))
-	if spawned_avatars.size() < 2:
-		print("No contest")
-		winner_text.text = "No contest!"
-		stop_emitters()
-		fighting = false
-		settings._change_to_state(settings.states.GAME_END)
+	if spawned_avatars.size() < 10:
+		timer_wait = 1.0
+		print("Regular wait time")
 	else:
-		if spawned_avatars.size() < 10:
-			timer_wait = 1.0
-			print("Regular wait time")
-		else:
-			timer_wait = 30.0 / spawned_avatars.size()
-			print("Adjusted Wait time " + str(timer_wait))
-		knock_out_timer.set_wait_time(timer_wait)
-		for avatar in spawned_avatars:
-			avatar.fight()
-		determine_winner()
-		$DebugTimer.stop()
+		timer_wait = 30.0 / spawned_avatars.size()
+		print("Adjusted Wait time " + str(timer_wait))
+	knock_out_timer.set_wait_time(timer_wait)
+	for avatar in spawned_avatars:
+		avatar.fight()
+	determine_winner()
+	$DebugTimer.stop()
 
 func _on_fight_countdown_timeout():
-	fight()
-	fight_started = true
-	$WalkTimer.start()
+	spawned_avatars = get_tree().get_nodes_in_group("avatar")
+	if spawned_avatars.size() >= 2:
+		fight()
+		fight_started = true
+		$WalkTimer.start()
+	else:
+		print("No contest")
+		winner_text.text = "No contest!"
+		settings._change_to_state(settings.states.GAME_END)
 
 func _on_area_2d_area_entered(_area):
 	if fight_started:
