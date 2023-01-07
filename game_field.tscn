@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://cwuv10v00p6ag"]
 
 [ext_resource type="Script" path="res://GameField.gd" id="1_q6o8f"]
-[ext_resource type="PackedScene" uid="uid://ck160awi55ogk" path="res://avatar.tscn" id="2_rocuv"]
+[ext_resource type="PackedScene" uid="uid://y8lobffg4rlx" path="res://avatar.tscn" id="2_rocuv"]
 [ext_resource type="Script" path="res://FightCountdown.gd" id="3_caofy"]
 [ext_resource type="PackedScene" uid="uid://3y8qoyj1eg6d" path="res://debris.tscn" id="3_ti1um"]
 [ext_resource type="Script" path="res://Websocket.gd" id="4_a5hbw"]

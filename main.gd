@@ -6,7 +6,7 @@ signal no_config
 signal start
 signal wait_for_raffle
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("transparency toggle"):
 		settings.toggle_transparency()
 		

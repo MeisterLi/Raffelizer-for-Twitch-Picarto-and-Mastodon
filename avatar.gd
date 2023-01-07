@@ -44,11 +44,11 @@ func start():
 	else:
 		get_picarto_avatar_url()
 
-func get_spawn_location(knocked):
+func get_spawn_location(being_knocked):
 	randomize()
 	var max_value = center_screen - Vector2(27, 15)
 	var min_value = max_value - Vector2(50, 50)
-	if knocked:
+	if being_knocked:
 		max_value = center_screen - Vector2(50, 50)
 		min_value = max_value - Vector2(30, 30)
 	var border = center_screen.y / center_screen.x
@@ -83,15 +83,15 @@ func download_image(url):
 	if http_error != OK:
 		print("Error fetching Avatar: " + http_error)
 
-func _http_twitch_info_completed(results, response_code, headers, body):
-	var response = _json.parse(body.get_string_from_utf8())
+func _http_twitch_info_completed(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	print(str(data))
 	var avatar_url = data["data"][0]["profile_image_url"]
 	display_name = data["data"][0]["display_name"]
 	download_image(avatar_url)
 	
-func _http_request_completed(results, response_code, headers, body):
+func _http_request_completed(_results, _response_code, _headers, body):
 	var image_parsed = false
 	var image = Image.new()
 	var image_error = image.load_png_from_buffer(body)
@@ -205,7 +205,7 @@ func knock():
 	knocked = true
 	knock_position = get_spawn_location(knocked)
 	
-func _on_avatar_area_entered(area):
+func _on_avatar_area_entered():
 	if waiting: 
 		$DodgeTimer.start()
 		move_offset = Vector2(randi_range(-8, 8), randi_range(-8, 8))
@@ -214,7 +214,7 @@ func _on_avatar_area_entered(area):
 func _on_dodge_timer_timeout():
 	dodge = false
 
-func _on_animation_player_animation_finished(anim_name):
+func _on_animation_player_animation_finished():
 	if not ko and not moving_to_center and not winner and not custom_animation == "Waiting":
 		animation_player.play("Bounce")
 	elif custom_animation == "Waiting":

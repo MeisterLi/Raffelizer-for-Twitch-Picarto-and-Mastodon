@@ -189,8 +189,8 @@ func _on_fight_cooldown_timeout():
 	reset_game.emit()
 	game.handle_auto_start()
 
-func _change_to_state(state):
-	match state:
+func _change_to_state(new_state):
+	match new_state:
 		states.SELECT_MODE:
 			$SettingEntry.show()
 			$ModeSelect/MastodonSettings.hide()
@@ -295,11 +295,11 @@ func _change_to_state(state):
 			$Reset.hide()
 			current_state = states.SETTINGS
 
-func _on_following_toggled(button_pressed):
+func _on_following_toggled(_button_pressed):
 	mastodon_following = not mastodon_following
 
-func _on_boosted_toggled(button_pressed):
+func _on_boosted_toggled(_button_pressed):
 	mastodon_boosted = not mastodon_boosted
 
-func _on_liked_toggled(button_pressed):
+func _on_liked_toggled(_button_pressed):
 	mastodon_faved = not mastodon_faved

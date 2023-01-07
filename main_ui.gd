@@ -54,8 +54,8 @@ func _on_setting_singleton_no_config():
 	start_button_button.hide()
 	raffle_word.hide()
 
-func _change_to_state(state):
-	match state:
+func _change_to_state(new_state):
+	match new_state:
 		states.SETTINGS:
 			settings.show()
 			hide()
@@ -110,6 +110,8 @@ func _fetch_toot(url, context = false, reblogs = false, faved = false):
 	else:
 		http_request.request_completed.connect(self._toot_fetched)
 	var err = http_request.request(request_url)
+	if err != OK:
+		print("Request to %s failed!" % request_url)
 	
 func _fetch_followers(id):
 	var url = request_server + "accounts/" + id + "/followers"
@@ -117,24 +119,26 @@ func _fetch_followers(id):
 	add_child(http_request)
 	http_request.request_completed.connect(self._followers_fetched)
 	var err = http_request.request(url)
+	if err != OK:
+		print("Request to %s failed!" % url)
 
-func _followers_fetched(results, response_code, headers, body):
-	var json = _json.parse(body.get_string_from_utf8())
+func _followers_fetched(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	for entry in data:
 		print("Follower: " + entry["url"])
 		all_followers.append(entry["id"])
 	_fetch_toot(settings.toot_url, false, true)
 
-func _toot_fetched(results, response_code, headers, body):
-	var json = _json.parse(body.get_string_from_utf8())
+func _toot_fetched(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	own_account = data["account"]["id"]
 	print("Own Account: " + own_account)
 	_fetch_followers(own_account)
 
-func _toot_context_fetched(results, response_code, headers, body):
-	var json = _json.parse(body.get_string_from_utf8())
+func _toot_context_fetched(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	var decendants = data["descendants"]
 	for entry in decendants:
@@ -143,16 +147,16 @@ func _toot_context_fetched(results, response_code, headers, body):
 		print("With Account ID: " + account["id"])
 		print("And Avatar URL: " + account["avatar"])
 	
-func _toot_reblogs_fetched(results, response_code, headers, body):
-	var json = _json.parse(body.get_string_from_utf8())
+func _toot_reblogs_fetched(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	for entry in data:
 		print("Reblog from: " + entry["url"])
 		all_boosts.append(entry["id"])
 	_fetch_toot(settings.toot_url, false, false, true)
 
-func _toot_faves_fetched(results, response_code, headers, body):
-	var json = _json.parse(body.get_string_from_utf8())
+func _toot_faves_fetched(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	for entry in data:
 		print("Faved by: " + entry["url"])
@@ -165,9 +169,11 @@ func _fetch_user_details(id):
 	add_child(http_request)
 	http_request.request_completed.connect(self._user_fetched)
 	var err = http_request.request(url)
+	if err != OK:
+		print("Request to %s failed!" % url)
 
-func _user_fetched(results, response_code, headers, body):
-	var json = _json.parse(body.get_string_from_utf8())
+func _user_fetched(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	print("A valid participant is: " + data["display_name"])
 	print("Home at: " + data["url"])

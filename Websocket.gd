@@ -19,7 +19,6 @@ var started = false
 var attempting_connection = false
 
 var _client = WebSocketPeer.new()
-var _write_mode = WebSocketPeer.WRITE_MODE_TEXT
 var _json = JSON.new()
 var user_name = ""
 
@@ -39,7 +38,7 @@ func start():
 func set_trigger_word(word):
 	trigger_word = word
 	
-func _process(delta):
+func _process(_delta):
 	if !started:
 		return
 	_client.poll()
@@ -98,10 +97,11 @@ func get_twitch_token():
 	var url = twitch_request_url + "?" + "&".join(body_parts)
 		
 	var http_error = http_request.request(url, ['Content-Type: application/x-www-form-urlencoded'], true,  HTTPClient.METHOD_POST)
-	print("Twitch Token request made")
+	if http_error == OK:
+		print("Twitch Token request made")
 
-func _http_twitch_token_completed(results, response_code, headers, body):
-	var response = _json.parse(body.get_string_from_utf8())
+func _http_twitch_token_completed(_results, _response_code, _headers, body):
+	_json.parse(body.get_string_from_utf8())
 	var data = _json.get_data()
 	twitch_token = data["access_token"]
 	print(twitch_token)
@@ -136,8 +136,8 @@ func handle_twitch(packet):
 					print("Sent on as " + item.replace("!r", ""))
 					break
 			
-func spawn_avatar(user_name):
-	gamefield.spawn_avatar(user_name, twitch_token, picarto_url)
+func spawn_avatar(custom_user_name):
+	gamefield.spawn_avatar(custom_user_name, twitch_token, picarto_url)
 
 func handle_picarto(packet):
 	var _err = _json.parse(packet)
@@ -159,8 +159,8 @@ func check_for_trigger_word(word, directory):
 				trigger_animation(item.replace("!r", ""), user_name)
 				break
 
-func trigger_animation(item, user_name):
-	gamefield.trigger_animation(item, user_name)
+func trigger_animation(item, custom_user_name):
+	gamefield.trigger_animation(item, custom_user_name)
 	
 func _on_ping_pong_timeout():
 	_client.send_text("PING")

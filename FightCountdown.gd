@@ -4,7 +4,7 @@ extends Timer
 @onready var word_label : Label = $/root/Main/MainUi/RaffleWordLabel
 var started = false
 
-func _process(delta):
+func _process(_delta):
 	if !is_stopped():
 		word_label.hide()
 		label.show()
