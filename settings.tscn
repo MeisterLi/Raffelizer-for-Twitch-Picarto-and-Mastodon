@@ -14,7 +14,7 @@ mouse_filter = 2
 script = ExtResource("1_akddt")
 
 [node name="SettingsPanel" type="Control" parent="."]
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,7 +23,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="AutoTimeWait" type="SpinBox" parent="SettingsPanel"]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -38,7 +37,6 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="Label" type="Label" parent="SettingsPanel/AutoTimeWait"]
-layout_mode = 0
 offset_left = -163.0
 offset_top = 8.0
 offset_right = -67.0
@@ -46,7 +44,6 @@ offset_bottom = 34.0
 text = "Time to join:"
 
 [node name="TimeBeforeRestart" type="SpinBox" parent="SettingsPanel"]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -61,7 +58,6 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="Label" type="Label" parent="SettingsPanel/TimeBeforeRestart"]
-layout_mode = 0
 offset_left = -163.0
 offset_top = 9.0
 offset_right = -6.0
@@ -69,7 +65,6 @@ offset_bottom = 35.0
 text = "Time between Runs:"
 
 [node name="CheckBox" type="CheckBox" parent="SettingsPanel"]
-layout_mode = 0
 offset_left = 52.0
 offset_top = 184.0
 offset_right = 167.0
@@ -77,7 +72,6 @@ offset_bottom = 238.0
 text = "Auto-Timer"
 
 [node name="TransparencyMode" type="CheckBox" parent="SettingsPanel"]
-layout_mode = 0
 offset_left = 216.0
 offset_top = 184.0
 offset_right = 398.0
@@ -85,7 +79,7 @@ offset_bottom = 238.0
 text = "Transparency Mode"
 
 [node name="ModeSelect" type="Control" parent="."]
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -94,7 +88,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Twitch" type="Button" parent="ModeSelect"]
-layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 0.493
@@ -110,7 +103,6 @@ metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
 [node name="Mastadon" type="Button" parent="ModeSelect"]
-layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 0.493
@@ -128,7 +120,6 @@ metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
 [node name="Picarto" type="Button" parent="ModeSelect"]
-layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -144,13 +135,12 @@ text = "Picarto"
 metadata/_edit_layout_mode = 1
 
 [node name="MastodonSettings" type="Control" parent="ModeSelect"]
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Following" type="CheckBox" parent="ModeSelect/MastodonSettings"]
-layout_mode = 0
 offset_left = 52.0
 offset_top = 238.0
 offset_right = 76.0
@@ -158,14 +148,12 @@ offset_bottom = 262.0
 button_pressed = true
 
 [node name="FollowingLabel" type="Label" parent="ModeSelect/MastodonSettings/Following"]
-layout_mode = 0
 offset_left = 24.0
 offset_right = 64.0
 offset_bottom = 23.0
 text = "Following"
 
 [node name="Boosted" type="CheckBox" parent="ModeSelect/MastodonSettings"]
-layout_mode = 0
 offset_left = 216.0
 offset_top = 240.0
 offset_right = 240.0
@@ -173,7 +161,6 @@ offset_bottom = 264.0
 button_pressed = true
 
 [node name="BoostedLabel" type="Label" parent="ModeSelect/MastodonSettings/Boosted"]
-layout_mode = 0
 offset_left = 24.0
 offset_top = -2.0
 offset_right = 98.0
@@ -181,7 +168,6 @@ offset_bottom = 24.0
 text = "Boosted"
 
 [node name="Liked" type="CheckBox" parent="ModeSelect/MastodonSettings"]
-layout_mode = 0
 offset_left = 408.0
 offset_top = 240.0
 offset_right = 432.0
@@ -189,7 +175,6 @@ offset_bottom = 264.0
 button_pressed = true
 
 [node name="LikedLabel" type="Label" parent="ModeSelect/MastodonSettings/Liked"]
-layout_mode = 0
 offset_left = 24.0
 offset_top = -2.0
 offset_right = 98.0
@@ -198,7 +183,6 @@ text = "Liked
 "
 
 [node name="InputField2" type="TextEdit" parent="."]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -216,7 +200,6 @@ wrap_mode = 1
 metadata/_edit_layout_mode = 1
 
 [node name="Button" type="Button" parent="."]
-layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -231,7 +214,6 @@ text = "Save"
 metadata/_edit_layout_mode = 1
 
 [node name="SettingsLabel" type="Label" parent="."]
-layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -245,7 +227,6 @@ theme_override_font_sizes/font_size = 28
 text = "Settings"
 
 [node name="StatusLabel" type="Label" parent="."]
-layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -264,7 +245,6 @@ vertical_alignment = 1
 metadata/_edit_layout_mode = 1
 
 [node name="Exit" type="Button" parent="."]
-layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -276,7 +256,6 @@ text = "X"
 metadata/_edit_layout_mode = 1
 
 [node name="Reset" type="Button" parent="."]
-layout_mode = 0
 offset_right = 115.0
 offset_bottom = 63.0
 theme_override_font_sizes/font_size = 40
@@ -290,14 +269,12 @@ one_shot = true
 one_shot = true
 
 [node name="SettingEntry" type="Button" parent="."]
-layout_mode = 0
 offset_right = 113.0
 offset_bottom = 63.0
 theme_override_font_sizes/font_size = 28
 text = "Settings"
 
 [node name="ErrorText" type="Label" parent="."]
-layout_mode = 0
 offset_top = 96.0
 offset_right = 1024.0
 offset_bottom = 160.0

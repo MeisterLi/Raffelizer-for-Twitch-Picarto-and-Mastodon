@@ -30,7 +30,12 @@ Reload the page and filter the results by "Chat". You should see a very long lin
 
 Copy this link into the Raffelizer after pressing "Picarto". You can then use the Save button to store the url in the settings file afterward.
 
-**Note:** There might be two entries found with this filter. If you click on them, you should see one with several entries and one with none - it's the one showing entries that you need to copy.  
+**Note:** There might be two entries found with this filter. If you click on them, you should see one with several entries and one with none - it's the one showing entries that you need to copy.
+
+HTML5 Version
+=============
+​The game will work fine in the HTML5 Version, however Copy and Paste are functions the Browser will not readily provide for you as it might be a security issue.
+To be able to paste a link into the Raffelizer, please copy it into your clipboard and when the Raffelizer is open, select the Browser's Menu bar and then select "Paste". You should now be able to paste that string into the Raffelizer HTML5 version.
 
 Reset and Run automatically
 ===========================
