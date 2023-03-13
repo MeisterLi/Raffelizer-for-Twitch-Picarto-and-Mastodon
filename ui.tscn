@@ -38,7 +38,7 @@ mouse_filter = 2
 script = ExtResource("1_cio0b")
 
 [node name="StartButton" type="Button" parent="."]
-anchors_preset = 5
+layout_mode = 0
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -76.0
@@ -49,7 +49,7 @@ text = "Start!"
 metadata/_edit_layout_mode = 1
 
 [node name="RaffleWord" type="LineEdit" parent="."]
-anchors_preset = 5
+layout_mode = 0
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -200.0
@@ -61,7 +61,7 @@ placeholder_text = "Raffle Word!"
 metadata/_edit_layout_mode = 1
 
 [node name="Winner" type="Label" parent="."]
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -79,7 +79,7 @@ horizontal_alignment = 1
 metadata/_edit_layout_mode = 1
 
 [node name="RaffleWordLabel" type="Label" parent="."]
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -90,7 +90,7 @@ offset_right = 400.0
 offset_bottom = 104.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 0.0141034
+rotation = -0.174533
 pivot_offset = Vector2(400, 104)
 theme = ExtResource("2_cm5rv")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -103,14 +103,14 @@ vertical_alignment = 1
 metadata/_edit_layout_mode = 1
 
 [node name="Bounce" type="AnimationPlayer" parent="RaffleWordLabel"]
-playback_speed = 2.0
+speed_scale = 3.0
 libraries = {
 "": SubResource("AnimationLibrary_umj4t")
 }
 
 [node name="CountDownLabel" type="Label" parent="."]
 visible = false
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

@@ -63,8 +63,7 @@ func connect_websocket():
 	#We need to pretend to be a browser for Picarto to be happy
 	_client.set_handshake_headers(["user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 OPR/89.0.4447.64"])	
 	print("Connecting to websocket")
-	print(websocket_url)
-	var err = _client.connect_to_url(websocket_url, true)
+	var err = _client.connect_to_url(websocket_url)
 	attempting_connection = true
 	if err != OK:
 		print(err)
@@ -96,7 +95,7 @@ func get_twitch_token():
 	])
 	var url = twitch_request_url + "?" + "&".join(body_parts)
 		
-	var http_error = http_request.request(url, ['Content-Type: application/x-www-form-urlencoded'], true,  HTTPClient.METHOD_POST)
+	var http_error = http_request.request(url, ['Content-Type: application/x-www-form-urlencoded'], 2)
 	if http_error == OK:
 		print("Twitch Token request made")
 

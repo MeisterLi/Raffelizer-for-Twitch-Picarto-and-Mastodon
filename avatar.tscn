@@ -278,7 +278,19 @@ region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a4hyt"]
 animations = [{
-"frames": [SubResource("AtlasTexture_yso4r"), SubResource("AtlasTexture_u13wt"), SubResource("AtlasTexture_5uwkf"), SubResource("AtlasTexture_qsbvh")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yso4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u13wt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uwkf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsbvh")
+}],
 "loop": true,
 "name": &"stars",
 "speed": 5.0
@@ -316,7 +328,7 @@ autowrap_mode = 1
 max_lines_visible = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 3.0
+speed_scale = 3.0
 libraries = {
 "": SubResource("AnimationLibrary_qys04")
 }
@@ -346,9 +358,9 @@ rotation = 0.345575
 [node name="Stars" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(0, -45)
-frames = SubResource("SpriteFrames_a4hyt")
+sprite_frames = SubResource("SpriteFrames_a4hyt")
 animation = &"stars"
-playing = true
+frame_progress = 0.684342
 
 [node name="ShrinkTimer" type="Timer" parent="."]
 wait_time = 5.0

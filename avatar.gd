@@ -199,6 +199,7 @@ func check_animation_state():
 		sprite.set_rotation(deg_to_rad(rotationvalue))
 		animation_player.stop()
 		$Stars.show()
+		$Stars.play("stars")
 		firstRun = true
 	
 func knock():
