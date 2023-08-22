@@ -43,4 +43,5 @@ script = ExtResource("6_pknah")
 [connection signal="raffle_word_entered" from="MainUi" to="." method="_on_ui_raffle_word_entered"]
 [connection signal="start_button" from="MainUi" to="GameField" method="_on_ui_start_button"]
 [connection signal="url_entered" from="MainUi" to="." method="_on_ui_url_entered"]
+[connection signal="exit_to_url" from="Settings" to="MainUi" method="_on_settings_exit_to_url"]
 [connection signal="reset_game" from="Settings" to="GameField" method="_on_settings_reset_game"]

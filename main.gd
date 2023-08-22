@@ -5,6 +5,7 @@ extends Node
 signal no_config
 signal start
 signal wait_for_raffle
+signal exit
 
 func _process(_delta):
 	if Input.is_action_just_pressed("transparency toggle"):

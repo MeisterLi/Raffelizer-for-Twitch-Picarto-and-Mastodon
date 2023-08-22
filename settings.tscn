@@ -1,7 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://bavch4mqab5ei"]
+[gd_scene load_steps=8 format=3 uid="uid://bavch4mqab5ei"]
 
 [ext_resource type="Script" path="res://SettingSingleton.gd" id="1_akddt"]
+[ext_resource type="LabelSettings" uid="uid://bli3ytn1jn11l" path="res://smallLabel.tres" id="2_js68x"]
 [ext_resource type="Script" path="res://ErrorText.gd" id="2_p7cg5"]
+[ext_resource type="Texture2D" uid="uid://nojeiiij25e3" path="res://Images/ManiHead.png" id="2_w73xa"]
+[ext_resource type="Script" path="res://AnimationPlayer.gd" id="3_af53c"]
+
+[sub_resource type="Animation" id="Animation_y8ceb"]
+resource_name = "flip"
+length = 3.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1.5, 2.6, 2.601),
+"transitions": PackedFloat32Array(1, 1, 1e-05, 1e-05),
+"update": 0,
+"values": [0.0, 3.14159, 6.28319, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(904, 496), Vector2(904, 446), Vector2(904, 496)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6iro5"]
+_data = {
+"flip": SubResource("Animation_y8ceb")
+}
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -42,6 +79,9 @@ offset_left = -163.0
 offset_top = 8.0
 offset_right = -67.0
 offset_bottom = 34.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 text = "Time to join:"
 
 [node name="TimeBeforeRestart" type="SpinBox" parent="SettingsPanel"]
@@ -64,6 +104,9 @@ offset_left = -163.0
 offset_top = 9.0
 offset_right = -6.0
 offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 text = "Time between Runs:"
 
 [node name="CheckBox" type="CheckBox" parent="SettingsPanel"]
@@ -72,6 +115,9 @@ offset_left = 52.0
 offset_top = 184.0
 offset_right = 167.0
 offset_bottom = 238.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 text = "Auto-Timer"
 
 [node name="TransparencyMode" type="CheckBox" parent="SettingsPanel"]
@@ -80,7 +126,41 @@ offset_left = 216.0
 offset_top = 184.0
 offset_right = 398.0
 offset_bottom = 238.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
 text = "Transparency Mode"
+
+[node name="Label" type="Label" parent="SettingsPanel"]
+offset_left = 824.0
+offset_top = 546.0
+offset_right = 1008.0
+offset_bottom = 578.0
+text = "Made By Maniko!"
+label_settings = ExtResource("2_js68x")
+
+[node name="Sprite2D" type="Sprite2D" parent="SettingsPanel"]
+position = Vector2(904, 479.512)
+rotation = 6.0129
+scale = Vector2(0.119074, 0.119074)
+texture = ExtResource("2_w73xa")
+
+[node name="Link" type="Button" parent="SettingsPanel/Sprite2D"]
+offset_left = -397.0
+offset_top = -386.0
+offset_right = -388.0
+offset_bottom = -378.0
+scale = Vector2(112.646, 123.977)
+focus_mode = 0
+action_mode = 0
+flat = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SettingsPanel/Sprite2D"]
+speed_scale = 2.4
+libraries = {
+"": SubResource("AnimationLibrary_6iro5")
+}
+script = ExtResource("3_af53c")
 
 [node name="ModeSelect" type="Control" parent="."]
 layout_mode = 1
@@ -106,7 +186,7 @@ text = "Twitch"
 metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
-[node name="Mastadon" type="Button" parent="ModeSelect"]
+[node name="Mastodon" type="Button" parent="ModeSelect"]
 layout_mode = 0
 anchor_left = 1.0
 anchor_top = 0.493
@@ -158,6 +238,7 @@ offset_left = 24.0
 offset_right = 64.0
 offset_bottom = 23.0
 text = "Following"
+label_settings = ExtResource("2_js68x")
 
 [node name="Boosted" type="CheckBox" parent="ModeSelect/MastodonSettings"]
 layout_mode = 0
@@ -174,6 +255,7 @@ offset_top = -2.0
 offset_right = 98.0
 offset_bottom = 24.0
 text = "Boosted"
+label_settings = ExtResource("2_js68x")
 
 [node name="Liked" type="CheckBox" parent="ModeSelect/MastodonSettings"]
 layout_mode = 0
@@ -191,6 +273,7 @@ offset_right = 98.0
 offset_bottom = 24.0
 text = "Liked
 "
+label_settings = ExtResource("2_js68x")
 
 [node name="InputField2" type="TextEdit" parent="."]
 layout_mode = 0
@@ -302,8 +385,9 @@ wait_time = 4.0
 
 [connection signal="toggled" from="SettingsPanel/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="toggled" from="SettingsPanel/TransparencyMode" to="." method="_on_transparency_mode_toggled"]
+[connection signal="button_down" from="SettingsPanel/Sprite2D/Link" to="." method="_on_link_button_down"]
 [connection signal="pressed" from="ModeSelect/Twitch" to="." method="_on_twitch_pressed"]
-[connection signal="pressed" from="ModeSelect/Mastadon" to="." method="_on_mastadon_pressed"]
+[connection signal="pressed" from="ModeSelect/Mastodon" to="." method="_on_mastadon_pressed"]
 [connection signal="pressed" from="ModeSelect/Picarto" to="." method="_on_picarto_pressed"]
 [connection signal="toggled" from="ModeSelect/MastodonSettings/Following" to="." method="_on_following_toggled"]
 [connection signal="toggled" from="ModeSelect/MastodonSettings/Boosted" to="." method="_on_boosted_toggled"]

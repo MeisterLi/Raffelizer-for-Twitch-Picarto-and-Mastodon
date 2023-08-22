@@ -18,6 +18,7 @@ var fighting = false
 @onready var screen = get_viewport_rect().size
 @onready var dustcloudParticles1 : CPUParticles2D = $CenterPosition/DustCloud1
 @onready var dustcloudParticles2 : CPUParticles2D = $CenterPosition/DustCloud2
+@onready var sheepCloud : CPUParticles2D = $CenterPosition/SheepCloud
 @onready var puff1 : CPUParticles2D = $CenterPosition/Puff1
 @onready var puff2 : CPUParticles2D = $CenterPosition/Puff2
 @onready var centerCollider = $CenterPosition/Area2D
@@ -116,6 +117,7 @@ func fight():
 		avatar.fight()
 	determine_winner()
 	$DebugTimer.stop()
+	$DustTimer.start()
 
 func _on_fight_countdown_timeout():
 	spawned_avatars = get_tree().get_nodes_in_group("avatar")
@@ -123,17 +125,11 @@ func _on_fight_countdown_timeout():
 		fight()
 		fight_started = true
 		$WalkTimer.start()
+		$DustTimer.start()
 	else:
 		print("No contest")
 		winner_text.text = "No contest!"
 		settings._change_to_state(settings.states.GAME_END)
-
-func _on_area_2d_area_entered(_area):
-	if fight_started:
-		start_emitters()
-		if fighting == false:
-			fighting = true
-			spawn_debris()
 
 func spawn_debris():
 	if fighting:
@@ -142,12 +138,14 @@ func spawn_debris():
 func start_emitters():
 	dustcloudParticles1.set_emitting(true)
 	dustcloudParticles2.set_emitting(true)
+	$SheepTimer.start(randi_range(4, 6))
 	puff1.set_emitting(true)
 	puff2.set_emitting(true)
 
 func stop_emitters():
 	dustcloudParticles1.set_emitting(false)
 	dustcloudParticles2.set_emitting(false)
+	$SheepTimer.stop()
 	puff1.set_emitting(false)
 	puff2.set_emitting(false)
 	
@@ -194,3 +192,14 @@ func _on_auto_start_timer_timeout():
 	print("GameField autostart timer timeout")
 	$AutoStartTimer.stop()
 	auto_start.emit()
+
+
+func _on_dust_timer_timeout():
+	if fight_started:
+		start_emitters()
+		if fighting == false:
+			fighting = true
+			spawn_debris()
+
+func _on_sheep_timer_timeout():
+	sheepCloud.set_emitting(true)

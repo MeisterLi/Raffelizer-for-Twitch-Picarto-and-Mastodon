@@ -5,6 +5,7 @@ extends Area2D
 @onready var particles : GPUParticles2D = $GPUParticles2D
 @onready var gamefield : Node2D = get_parent()
 @onready var weapon : Sprite2D = $Weapon
+@onready var collisionShape: CollisionShape2D = $CollisionShape2D
 
 var moving_to_center = false
 var knock_position = Vector2.ZERO
@@ -165,6 +166,7 @@ func fight():
 	dodge = false
 	moving_to_center = true
 	waiting = false
+	collisionShape.queue_free()
 	
 func check_animation_state():
 	if winner:

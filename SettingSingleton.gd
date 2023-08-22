@@ -9,6 +9,7 @@ var config = ConfigFile.new()
 @onready var color_rect = $/root/Main/ColorRect
 signal no_config
 signal reset_game
+signal exit_to_url
 var config_present = true
 var state
 var twitch_name = ""
@@ -25,7 +26,7 @@ var mastodon_following = true
 var mastodon_boosted = true
 var mastodon_faved = true
 
-enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, DISABLED, GAME_END, SETTINGS}
+enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, INPUT_WORD, DISABLED, GAME_END, SETTINGS}
 enum modes {TWITCH, PICARTO, MASTODON}
 	
 func _ready():
@@ -115,8 +116,19 @@ func _validate_url(url, mastodon):
 			return true
 	
 func _on_exit_pressed():
+	print("Exit pressed in state: " + str(current_state))
 	if current_state == states.SETTINGS:
 		_change_to_state(states.SELECT_MODE)
+	elif current_state == states.DISABLED:
+		print("State is disabled!")
+		if mode == modes.TWITCH:
+			_change_to_state(states.INPUT_TWITCH)
+			exit_to_url.emit()
+		elif mode == modes.PICARTO:
+			_change_to_state(states.INPUT_PICARTO)
+			exit_to_url.emit()
+	elif mode == modes.TWITCH or mode == modes.PICARTO:
+		_change_to_state(states.DISABLED)
 	else:
 		_change_to_state(states.DISABLED)
 		game.handle_auto_start()
@@ -127,9 +139,9 @@ func _on_reset_pressed():
 	if mode == modes.MASTODON:
 		_change_to_state(states.INPUT_MASTODON)
 	if mode == modes.TWITCH:
-		_change_to_state(states.INPUT_TWITCH)
+		_change_to_state(states.DISABLED)
 	if mode == modes.PICARTO:
-		_change_to_state(states.INPUT_PICARTO)
+		_change_to_state(states.DISABLED)
 
 func _on_setting_entry_pressed():
 	_change_to_state(states.SETTINGS)
@@ -156,27 +168,15 @@ func toggle_transparency():
 func set_transparency(on):
 	if on == true:
 		background.hide()
-		color_rect.show()
-		$SettingEntry.set_flat(true)
-		$ModeSelect/Picarto.set_flat(true)
-		$ModeSelect/Twitch.set_flat(true)
-		$Button.set_flat(true)
-		$Exit.set_flat(true)
-		$Reset.set_flat(true)
-		game_ui.start_button_button.set_flat(true)
-		game_ui.raffle_word.set_flat(true)
+		color_rect.hide()
+		get_tree().get_root().set_transparent_background(true)
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, true, 0)
 		transparency_mode = true
 	elif on == false:
 		background.show()
 		color_rect.hide()
-		$SettingEntry.set_flat(false)
-		$ModeSelect/Picarto.set_flat(false)
-		$ModeSelect/Twitch.set_flat(false)
-		$Button.set_flat(false)
-		$Exit.set_flat(false)
-		$Reset.set_flat(false)
-		game_ui.start_button_button.set_flat(false)
-		game_ui.raffle_word.set_flat(false)
+		get_tree().get_root().set_transparent_background(false)
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, false, 0)
 		transparency_mode = false
 	
 func _on_auto_timer_timeout():
@@ -196,7 +196,7 @@ func _change_to_state(new_state):
 			$ModeSelect/MastodonSettings.hide()
 			$ModeSelect/Picarto.show()
 			$ModeSelect/Twitch.show()
-			$ModeSelect/MastodonSettings.hide()
+			$ModeSelect/Mastodon.show()
 			$SettingsPanel.hide()
 			$InputField2.hide()
 			$Button.hide()
@@ -210,7 +210,7 @@ func _change_to_state(new_state):
 			$SettingEntry.hide()
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
-			$ModeSelect/Mastadon.hide()
+			$ModeSelect/Mastodon.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
 			$InputField2.show()
@@ -225,7 +225,7 @@ func _change_to_state(new_state):
 		states.INPUT_PICARTO:
 			$SettingEntry.hide()
 			$ModeSelect/Picarto.hide()
-			$ModeSelect/Mastadon.hide()
+			$ModeSelect/Mastodon.hide()
 			$ModeSelect/Twitch.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
@@ -242,7 +242,7 @@ func _change_to_state(new_state):
 			$SettingEntry.hide()
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
-			$ModeSelect/Mastadon.hide()
+			$ModeSelect/Mastodon.hide()
 			$ModeSelect/MastodonSettings.show()
 			$SettingsPanel.hide()
 			$InputField2.show()
@@ -255,16 +255,17 @@ func _change_to_state(new_state):
 			$StatusLabel.text = "Input url to Mastodon Toot!"
 			current_state = states.INPUT_MASTODON
 		states.DISABLED:
+			print("Disabled UI")
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
-			$ModeSelect/Mastadon.hide()
+			$ModeSelect/Mastodon.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
 			$InputField2.hide()
 			$Button.hide()
 			$SettingsLabel.hide()
 			$StatusLabel.hide()
-			$Exit.hide()
+			$Exit.show()
 			$Reset.hide()
 			main.input_raffle_word()
 			current_state = states.DISABLED
@@ -303,3 +304,6 @@ func _on_boosted_toggled(_button_pressed):
 
 func _on_liked_toggled(_button_pressed):
 	mastodon_faved = not mastodon_faved
+
+func _on_link_button_down():
+	OS.shell_open("https://manikobunneh.itch.io/")

@@ -60,6 +60,7 @@ func _change_to_state(new_state):
 			settings.show()
 			hide()
 		states.INPUT_WORD:
+			show()
 			raffle_word.show()
 			if settings.mode == settings.modes.MASTODON:
 				_change_to_state(states.MASTODON_AUTORUN)
@@ -211,3 +212,7 @@ func _evaluate_participants():
 		for follower in all_boosts:
 			_fetch_user_details(follower)
 	gameField.count_down.start()
+
+func _on_settings_exit_to_url():
+	print("Changing to setting state after exiting url entry")
+	_change_to_state(states.SETTINGS)
