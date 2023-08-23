@@ -26,8 +26,8 @@ var mastodon_following = true
 var mastodon_boosted = true
 var mastodon_faved = true
 
-enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, INPUT_WORD, DISABLED, GAME_END, SETTINGS}
-enum modes {TWITCH, PICARTO, MASTODON}
+enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, INPUT_WORD, DISABLED, GAME_END, SETTINGS, INPUT_MANUAL}
+enum modes {TWITCH, PICARTO, MASTODON, MANUAL}
 	
 func _ready():
 	timer.stop()
@@ -53,6 +53,10 @@ func _on_picarto_pressed():
 func _on_mastadon_pressed():
 	_change_to_state(states.INPUT_MASTODON)
 	mode = modes.MASTODON
+	
+func _on_manual_pressed():
+	_change_to_state(states.INPUT_MANUAL)
+	mode = modes.MANUAL
 	
 func set_error(error):
 	$ErrorText.set_error(error)
@@ -116,11 +120,9 @@ func _validate_url(url, mastodon):
 			return true
 	
 func _on_exit_pressed():
-	print("Exit pressed in state: " + str(current_state))
 	if current_state == states.SETTINGS:
 		_change_to_state(states.SELECT_MODE)
 	elif current_state == states.DISABLED:
-		print("State is disabled!")
 		if mode == modes.TWITCH:
 			_change_to_state(states.INPUT_TWITCH)
 			exit_to_url.emit()
@@ -142,6 +144,9 @@ func _on_reset_pressed():
 		_change_to_state(states.DISABLED)
 	if mode == modes.PICARTO:
 		_change_to_state(states.DISABLED)
+	if mode == modes.MANUAL:
+		_change_to_state(states.INPUT_MANUAL)
+		$/root/Main/ManualMode.reset()
 
 func _on_setting_entry_pressed():
 	_change_to_state(states.SETTINGS)
@@ -295,6 +300,24 @@ func _change_to_state(new_state):
 			$StatusLabel.hide()
 			$Reset.hide()
 			current_state = states.SETTINGS
+		states.INPUT_MANUAL:
+			$SettingEntry.hide()
+			$ModeSelect/Picarto.hide()
+			$ModeSelect/Twitch.hide()
+			$ModeSelect/Mastodon.hide()
+			$ModeSelect/Manual.hide()
+			$ModeSelect/MastodonSettings.hide()
+			$SettingsPanel.hide()
+			$InputField2.hide()
+			$Button.hide()
+			$SettingsLabel.hide()
+			$Exit.hide()
+			$InputField2.hide()
+			$StatusLabel.hide()
+			$Reset.hide()
+			$StatusLabel.hide()
+			$/root/Main/ManualMode.show()
+			current_state = states.INPUT_MANUAL
 
 func _on_following_toggled(_button_pressed):
 	mastodon_following = not mastodon_following

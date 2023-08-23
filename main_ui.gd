@@ -20,7 +20,7 @@ var all_faves = []
 var all_boosts = []
 var request_server = ""
 
-enum states {SETTINGS, INPUT_WORD, MASTODON_AUTORUN, WAIT_FOR_START, WAIT_FOR_CONNECTION, GAME_PLAYING, END}
+enum states {SETTINGS, INPUT_WORD, MASTODON_AUTORUN, MANUAL_AUTORUN, WAIT_FOR_START, WAIT_FOR_CONNECTION, GAME_PLAYING, END}
 
 func reset():
 	all_followers.clear()
@@ -68,6 +68,9 @@ func _change_to_state(new_state):
 			raffle_word.hide()
 			start_button_button.hide()
 			_fetch_toot(settings.toot_url)
+		states.MANUAL_AUTORUN:
+			raffle_word.hide()
+			start_button_button.hide()
 			
 func _on_game_field_connected():
 	if settings.auto_timer == true:

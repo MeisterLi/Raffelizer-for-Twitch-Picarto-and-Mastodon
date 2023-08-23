@@ -19,6 +19,7 @@ config/icon="res://Images/icon.png"
 
 window/size/viewport_width=1024
 window/size/viewport_height=600
+window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 
 [input]

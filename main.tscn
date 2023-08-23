@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6lm2plhnbubg"]
+[gd_scene load_steps=8 format=3 uid="uid://b6lm2plhnbubg"]
 
 [ext_resource type="PackedScene" uid="uid://cwuv10v00p6ag" path="res://game_field.tscn" id="1_jmxeg"]
 [ext_resource type="Script" path="res://main.gd" id="1_v2c83"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bavch4mqab5ei" path="res://settings.tscn" id="2_ikc11"]
 [ext_resource type="Texture2D" uid="uid://cjqpqyyshhhje" path="res://Images/battlefield.png" id="5_utxbf"]
 [ext_resource type="Script" path="res://Originaltournament.gd" id="6_pknah"]
+[ext_resource type="PackedScene" uid="uid://ct4lf8ka4nmxa" path="res://manual_mode.tscn" id="7_qddh8"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v2c83")
@@ -34,6 +35,9 @@ scroll_ignore_camera_zoom = true
 position = Vector2(512, 300)
 texture = ExtResource("5_utxbf")
 script = ExtResource("6_pknah")
+
+[node name="ManualMode" parent="." instance=ExtResource("7_qddh8")]
+visible = false
 
 [connection signal="no_config" from="." to="MainUi" method="_on_main_no_config"]
 [connection signal="start" from="." to="MainUi" method="_on_main_start"]

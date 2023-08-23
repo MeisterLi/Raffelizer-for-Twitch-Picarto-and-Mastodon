@@ -60,7 +60,7 @@ func _on_spwan_timer_timeout():
 			print("Knocking looser")
 			knock_out_loser()
 
-func spawn_avatar(avatar_name, twitch_token, picarto_url, mastodon_home = ""):
+func spawn_avatar(avatar_name, twitch_token, picarto_url, mastodon_home = "", avatar_icon = ""):
 	if fight_started:
 		pass
 	elif avatar_name in participating_users:
@@ -73,6 +73,7 @@ func spawn_avatar(avatar_name, twitch_token, picarto_url, mastodon_home = ""):
 		avatar.twitch_token = twitch_token
 		avatar.picarto_url = picarto_url
 		avatar.mastodon_home = mastodon_home
+		avatar.avatar_icon = avatar_icon
 		avatar.start()
 
 func spawn_avatar_debug(avatar_name, picarto_url):

@@ -31,6 +31,7 @@ var ko = false
 var firstRun = false
 var custom_animation = ""
 var mastodon_home
+var avatar_icon
 
 # Called when the node enters the scene tree for the first time.
 	
@@ -42,6 +43,10 @@ func start():
 	global_position = get_spawn_location(false)
 	if twitch:
 		get_twitch_avatar_url()
+	elif avatar_icon is Texture2D:
+		print("Icon is a Sprite2D!")
+		update_texture(avatar_icon)
+		manual_start()
 	else:
 		get_picarto_avatar_url()
 
@@ -115,6 +120,11 @@ func _http_request_completed(_results, _response_code, _headers, body):
 		var texture = ImageTexture.create_from_image(image)
 		update_texture(texture)
 	
+	participating_users.append(user_name)
+	show()
+	arm()
+	
+func manual_start():
 	participating_users.append(user_name)
 	show()
 	arm()

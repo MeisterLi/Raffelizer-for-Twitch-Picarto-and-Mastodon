@@ -132,6 +132,7 @@ theme_override_constants/outline_size = 4
 text = "Transparency Mode"
 
 [node name="Label" type="Label" parent="SettingsPanel"]
+layout_mode = 0
 offset_left = 824.0
 offset_top = 546.0
 offset_right = 1008.0
@@ -186,6 +187,21 @@ text = "Twitch"
 metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
+[node name="Manual" type="Button" parent="ModeSelect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.493
+anchor_right = 1.0
+anchor_bottom = 0.493
+offset_left = -616.0
+offset_top = 168.2
+offset_right = -400.0
+offset_bottom = 232.2
+text = "Manual"
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = true
+
 [node name="Mastodon" type="Button" parent="ModeSelect"]
 layout_mode = 0
 anchor_left = 1.0
@@ -219,6 +235,7 @@ text = "Picarto"
 metadata/_edit_layout_mode = 1
 
 [node name="MastodonSettings" type="Control" parent="ModeSelect"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -387,6 +404,7 @@ wait_time = 4.0
 [connection signal="toggled" from="SettingsPanel/TransparencyMode" to="." method="_on_transparency_mode_toggled"]
 [connection signal="button_down" from="SettingsPanel/Sprite2D/Link" to="." method="_on_link_button_down"]
 [connection signal="pressed" from="ModeSelect/Twitch" to="." method="_on_twitch_pressed"]
+[connection signal="pressed" from="ModeSelect/Manual" to="." method="_on_manual_pressed"]
 [connection signal="pressed" from="ModeSelect/Mastodon" to="." method="_on_mastadon_pressed"]
 [connection signal="pressed" from="ModeSelect/Picarto" to="." method="_on_picarto_pressed"]
 [connection signal="toggled" from="ModeSelect/MastodonSettings/Following" to="." method="_on_following_toggled"]
