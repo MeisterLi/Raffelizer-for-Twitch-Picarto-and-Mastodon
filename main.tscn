@@ -42,6 +42,7 @@ visible = false
 [connection signal="no_config" from="." to="MainUi" method="_on_main_no_config"]
 [connection signal="start" from="." to="MainUi" method="_on_main_start"]
 [connection signal="wait_for_raffle" from="." to="MainUi" method="_on_main_wait_for_raffle"]
+[connection signal="wait_for_raffle" from="." to="Settings" method="_on_main_wait_for_raffle"]
 [connection signal="auto_start" from="GameField" to="." method="_on_game_field_auto_start"]
 [connection signal="connected" from="GameField" to="MainUi" method="_on_game_field_connected"]
 [connection signal="raffle_word_entered" from="MainUi" to="." method="_on_ui_raffle_word_entered"]

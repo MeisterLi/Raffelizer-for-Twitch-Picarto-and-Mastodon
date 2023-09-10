@@ -235,7 +235,6 @@ text = "Picarto"
 metadata/_edit_layout_mode = 1
 
 [node name="MastodonSettings" type="Control" parent="ModeSelect"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -292,8 +291,9 @@ text = "Liked
 "
 label_settings = ExtResource("2_js68x")
 
-[node name="InputField2" type="TextEdit" parent="."]
-layout_mode = 0
+[node name="NameInput" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -301,7 +301,7 @@ anchor_bottom = 0.5
 offset_left = -296.0
 offset_top = -32.0
 offset_right = 296.0
-offset_bottom = 116.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "Twitch Name"
@@ -309,18 +309,59 @@ drag_and_drop_selection_enabled = false
 wrap_mode = 1
 metadata/_edit_layout_mode = 1
 
-[node name="Button" type="Button" parent="."]
+[node name="TokenInput" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -296.0
+offset_top = 28.0
+offset_right = 296.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "Token"
+drag_and_drop_selection_enabled = false
+wrap_mode = 1
+metadata/_edit_layout_mode = 1
+
+[node name="TokenButton" type="Button" parent="."]
 layout_mode = 0
+offset_left = 816.0
+offset_top = 332.0
+offset_right = 939.0
+offset_bottom = 363.0
+text = "Request Token"
+
+[node name="SaveButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -136.0
+offset_left = -352.0
 offset_top = -96.0
-offset_right = 136.0
+offset_right = -80.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Save"
+metadata/_edit_layout_mode = 1
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -96.0
+offset_right = 272.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Start"
 metadata/_edit_layout_mode = 1
 
 [node name="SettingsLabel" type="Label" parent="."]
@@ -410,7 +451,9 @@ wait_time = 4.0
 [connection signal="toggled" from="ModeSelect/MastodonSettings/Following" to="." method="_on_following_toggled"]
 [connection signal="toggled" from="ModeSelect/MastodonSettings/Boosted" to="." method="_on_boosted_toggled"]
 [connection signal="toggled" from="ModeSelect/MastodonSettings/Liked" to="." method="_on_liked_toggled"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="TokenButton" to="." method="_on_token_button_pressed"]
+[connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="Reset" to="." method="_on_reset_pressed"]
 [connection signal="timeout" from="FightCooldown" to="." method="_on_fight_cooldown_timeout"]

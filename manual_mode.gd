@@ -5,6 +5,7 @@ extends Control
 @onready var previewSprite : Sprite2D = $PreviewSprite
 @onready var entry : LineEdit = $LineEdit
 @onready var gameField = $/root/Main/GameField
+@onready var settings = $/root/Main/Settings
 @onready var main = $/root/Main
 @export var trashes : PackedScene
 var list_entries = []
@@ -99,3 +100,7 @@ func _on_load_dialog_file_selected(path):
 				image.resize(64,64,Image.INTERPOLATE_LANCZOS)
 			var texture = ImageTexture.create_from_image(image)
 			add_item(entry[0], texture, entry[1])
+
+func _on_exit_pressed():
+	settings._change_to_state(settings.states.SELECT_MODE)
+	hide()

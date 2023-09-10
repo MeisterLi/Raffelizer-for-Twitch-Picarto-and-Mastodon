@@ -40,7 +40,9 @@ func start():
 	weapon.hide()
 	twitch = $/root/Main/Settings.twitch
 	animation_player.play("Bounce")
-	global_position = get_spawn_location(false)
+	global_position = get_free_spawn_location(false)
+	gamefield.positions.append(global_position)
+	print(str(gamefield.positions))
 	if twitch:
 		get_twitch_avatar_url()
 	elif avatar_icon is Texture2D:
@@ -49,6 +51,26 @@ func start():
 		manual_start()
 	else:
 		get_picarto_avatar_url()
+
+func get_free_spawn_location(knocked):
+	var possible_position = get_spawn_location(knocked)
+	var overlapping = false
+	var attempts = 0
+	if gamefield.positions != [] and gamefield.positions.size() <= 24: # After 24 participants, it becomes unrealistic to attempt to find a free space, so let's not
+		for point in gamefield.positions:
+			print("Checking point {point} for overlap".format({"point" : point}))
+			if (possible_position.x < point.x + 64 and 
+			possible_position.x + 64 > point.x and 
+			possible_position.y < point.y + 64 and 
+			possible_position.y + 64 > point.y):
+				print("Spawn location {possible_position} overlaps, generating new...".format({"possible_position" : possible_position}))
+				attempts = attempts + 1
+				overlapping = true
+				break
+		if overlapping == true:
+			possible_position = get_free_spawn_location(knocked)
+			
+	return possible_position
 
 func get_spawn_location(being_knocked):
 	randomize()
@@ -63,7 +85,7 @@ func get_spawn_location(being_knocked):
 	var pos_y = lerpf(0 if !upper else min_value.y, max_value.y, randf())
 	pos_x = -pos_x if randf() > 0.5 else pos_x
 	pos_y = -pos_y if randf() > 0.5 else pos_y
-	return Vector2(pos_x, pos_y) + center_screen
+	return Vector2(int(pos_x), int(pos_y)) + center_screen
 
 func get_twitch_avatar_url():
 	var http_request = HTTPRequest.new()
@@ -216,7 +238,7 @@ func check_animation_state():
 	
 func knock():
 	knocked = true
-	knock_position = get_spawn_location(knocked)
+	knock_position = get_free_spawn_location(knocked)
 	
 func _on_avatar_area_entered():
 	if waiting: 

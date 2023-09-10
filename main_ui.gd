@@ -24,6 +24,7 @@ enum states {SETTINGS, INPUT_WORD, MASTODON_AUTORUN, MANUAL_AUTORUN, WAIT_FOR_ST
 
 func reset():
 	all_followers.clear()
+	raffle_word_label.hide()
 	all_faves.clear()
 	all_boosts.clear()
 	toot_response = null

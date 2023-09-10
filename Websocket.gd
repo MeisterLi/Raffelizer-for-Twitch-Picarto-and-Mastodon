@@ -8,11 +8,11 @@ const client_secret := "3qxwbsjch7yemq9bh8z0wjufncdt0r"
 @onready var label : Label = $/root/Main/MainUi/RaffleWordLabel
 var trigger_word = ""
 var websocket_url = "wss://irc-ws.chat.twitch.tv"
+var picarto_url = "wss://chat.picarto.tv/bot/username={user}&password={pw}"
 var participating_users = []
 var twitch = true
 var twitch_name
 var twitch_token = ""
-var picarto_url = ""
 var connection_established = false
 var animationNames = ["!rFlip", "!rRainbow", "!rMushroom"]
 var started = false
@@ -20,20 +20,20 @@ var attempting_connection = false
 
 var _client = WebSocketPeer.new()
 var _json = JSON.new()
-var user_name = ""
+var user_name
+var password
 
 func start():
 	started = true
 	twitch = settings.twitch
+	user_name = settings.picarto_name
+	password = settings.picarto_token
 	label.show()
 	label.text = "Connecting..."
 	if twitch:
 		print("Twitch active!")
 		twitch_name = settings.twitch_name
-		connect_websocket()
-	else:
-		websocket_url = settings.picarto_url
-		connect_websocket()
+	connect_websocket()
 		
 func set_trigger_word(word):
 	trigger_word = word
@@ -61,10 +61,15 @@ func _process(_delta):
 
 func connect_websocket():
 	#We need to pretend to be a browser for Picarto to be happy
-	_client.set_handshake_headers(["user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 OPR/89.0.4447.64"])	
-	print("Connecting to websocket")
-	var err = _client.connect_to_url(websocket_url)
-	attempting_connection = true
+	var url
+	if !twitch:
+		_client.set_handshake_headers(["User-Agent: PTV-BOT-%s" % user_name])
+		url = picarto_url.format({"user" : user_name, "pw" : password})
+	else:
+		url = websocket_url
+	print("Connecting to websocket {url}".format({"url" : url}))
+	var err = _client.connect_to_url(url)
+	attempting_connection = false
 	if err != OK:
 		print(err)
 
@@ -80,6 +85,7 @@ func _connected(proto = ""):
 		_client.send_text("CAP REQ :twitch.tv/commands twitch.tv/tags")
 		_client.send_text("JOIN #" + twitch_name.to_lower())
 	else:
+		print("Picarto connected!")
 		emit_signal("connected")
 
 func get_twitch_token():
@@ -166,6 +172,7 @@ func _on_ping_pong_timeout():
 
 func reset():
 	_client.close(1000, "Restart")
+	print("Resetting websocket")
 	attempting_connection = false
 	trigger_word = ""
 	user_name = ""

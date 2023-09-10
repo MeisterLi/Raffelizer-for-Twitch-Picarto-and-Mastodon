@@ -13,7 +13,8 @@ signal exit_to_url
 var config_present = true
 var state
 var twitch_name = ""
-var picarto_url = ""
+var picarto_name = ""
+var picarto_token = ""
 var toot_url = ""
 var twitch = false
 var weapons = true
@@ -26,7 +27,7 @@ var mastodon_following = true
 var mastodon_boosted = true
 var mastodon_faved = true
 
-enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, INPUT_WORD, DISABLED, GAME_END, SETTINGS, INPUT_MANUAL}
+enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, INPUT_WORD, DISABLED, GAME_END, SETTINGS, INPUT_MANUAL, WAITING}
 enum modes {TWITCH, PICARTO, MASTODON, MANUAL}
 	
 func _ready():
@@ -36,7 +37,8 @@ func _ready():
 	if err != OK:
 		config_present = false
 	twitch_name = config.get_value("config", "twitch_name", "")
-	picarto_url = config.get_value("config", "picarto_url", "")
+	picarto_name = config.get_value("config", "picarto_name", "")
+	picarto_token = config.get_value("config", "picarto_token", "")
 	print("auto_timer is " + str(auto_timer))
 	
 	_change_to_state(states.SELECT_MODE)
@@ -61,38 +63,38 @@ func _on_manual_pressed():
 func set_error(error):
 	$ErrorText.set_error(error)
 	
-func _on_button_pressed():
-	var input = $InputField2.get_text().strip_edges(true, true)
-	var placeholder = $InputField2.get_placeholder().strip_edges(true, true)
+func _on_save_button_pressed():
+	var name_input = $NameInput.get_text().strip_edges(true, true)
+	var pw_input = $TokenInput.get_text().strip_edges(true, true)
+	var placeholder = $NameInput.get_placeholder().strip_edges(true, true)
 	if current_state == states.INPUT_TWITCH:
-		if $InputField2.get_text() != "" && input == "":
+		if $NameInput.get_text() != "" && name_input == "":
 			print("Please put in a valid username")
 			set_error("Please put in a valid username")
 			return
-		elif input == "":
+		elif name_input == "":
 			twitch_name = placeholder
 		else:
-			twitch_name = input
+			twitch_name = name_input
 	elif current_state == states.INPUT_PICARTO:
-		if $InputField2.get_text() != "" && input == "":
-			print("Please put in a valid url")
-			set_error("Please put in a valid url")
+		if ($NameInput.get_text() != "" && name_input == "") || ($TokenInput.get_text() != "" && pw_input == ""):
+			print("Please enter your username and token!")
+			set_error("Please enter your username and token!")
 			return
-		elif input == "":
-			picarto_url = placeholder
+		elif name_input == "":
+			picarto_name = placeholder
 		else:
-			if !_validate_url(input, false):
-				set_error("Please put in a valid picarto Websocket URL!")
-				return
-			picarto_url = input
+			picarto_token = pw_input
+			picarto_name = name_input
 	elif current_state == states.INPUT_MASTODON:
-		if !_validate_url(input, true):
+		if !_validate_url(name_input, true):
 			set_error("Please put in a valid toot URL")
 			return
 		else:
-			toot_url = input
-	config.set_value("config", "picarto_url", picarto_url)
+			toot_url = name_input
+	config.set_value("config", "picarto_name", picarto_name)
 	config.set_value("config", "twitch_name", twitch_name)
+	config.set_value("config", "picarto_token", picarto_token)
 	var err = config.save("user://raffelizer.ini")
 	if err != OK:
 		print(err)
@@ -122,18 +124,24 @@ func _validate_url(url, mastodon):
 func _on_exit_pressed():
 	if current_state == states.SETTINGS:
 		_change_to_state(states.SELECT_MODE)
-	elif current_state == states.DISABLED:
+	elif current_state == states.WAITING:
+		reset_game.emit()
 		if mode == modes.TWITCH:
 			_change_to_state(states.INPUT_TWITCH)
 			exit_to_url.emit()
 		elif mode == modes.PICARTO:
 			_change_to_state(states.INPUT_PICARTO)
 			exit_to_url.emit()
-	elif mode == modes.TWITCH or mode == modes.PICARTO:
-		_change_to_state(states.DISABLED)
-	else:
-		_change_to_state(states.DISABLED)
-		game.handle_auto_start()
+	elif current_state == states.DISABLED:
+		reset_game.emit()
+		if mode == modes.TWITCH:
+			_change_to_state(states.INPUT_TWITCH)
+			exit_to_url.emit()
+		elif mode == modes.PICARTO:
+			_change_to_state(states.INPUT_PICARTO)
+			exit_to_url.emit()
+	elif current_state in [states.INPUT_MANUAL, states.INPUT_MASTODON, states.INPUT_PICARTO, states.INPUT_TWITCH]:
+		_change_to_state(states.SELECT_MODE)
 	
 func _on_reset_pressed():
 	reset_game.emit()
@@ -202,9 +210,13 @@ func _change_to_state(new_state):
 			$ModeSelect/Picarto.show()
 			$ModeSelect/Twitch.show()
 			$ModeSelect/Mastodon.show()
+			$ModeSelect/Manual.show()
 			$SettingsPanel.hide()
-			$InputField2.hide()
-			$Button.hide()
+			$NameInput.hide()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.hide()
+			$StartButton.hide()
 			$SettingsLabel.show()
 			$StatusLabel.show()
 			$Exit.hide()
@@ -214,15 +226,20 @@ func _change_to_state(new_state):
 		states.INPUT_TWITCH:
 			$SettingEntry.hide()
 			$ModeSelect/Picarto.hide()
+			$ModeSelect/Manual.hide()
 			$ModeSelect/Twitch.hide()
 			$ModeSelect/Mastodon.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
-			$InputField2.show()
-			$Button.show()
+			$NameInput.show()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.show()
+			$StartButton.show()
+			$StartButton.set_position(Vector2(512, 504))
 			$SettingsLabel.show()
 			$Exit.show()
-			$InputField2.placeholder_text = twitch_name
+			$NameInput.placeholder_text = twitch_name
 			$StatusLabel.show()
 			$Reset.hide()
 			$StatusLabel.text = "Input Twitch channel name!"
@@ -231,30 +248,40 @@ func _change_to_state(new_state):
 			$SettingEntry.hide()
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Mastodon.hide()
+			$ModeSelect/Manual.hide()
 			$ModeSelect/Twitch.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
-			$InputField2.show()
-			$Button.show()
+			$NameInput.show()
+			$TokenInput.show()
+			$TokenButton.show()
+			$SaveButton.show()
+			$StartButton.show()
+			$StartButton.set_position(Vector2(512, 504))
 			$SettingsLabel.show()
 			$Exit.show()
-			$InputField2.placeholder_text = picarto_url
+			$NameInput.placeholder_text = picarto_name
 			$StatusLabel.show()
 			$Reset.hide()
-			$StatusLabel.text = "Input Picarto chat websocket url!"
+			$StatusLabel.text = "Input Picarto username and token!"
 			current_state = states.INPUT_PICARTO
 		states.INPUT_MASTODON:
 			$SettingEntry.hide()
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
+			$ModeSelect/Manual.hide()
 			$ModeSelect/Mastodon.hide()
 			$ModeSelect/MastodonSettings.show()
 			$SettingsPanel.hide()
-			$InputField2.show()
-			$Button.show()
+			$NameInput.show()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.hide()
+			$StartButton.show()
+			$StartButton.set_position(Vector2(384, 504))
 			$SettingsLabel.show()
 			$Exit.show()
-			$InputField2.placeholder_text = "Input url to Mastodon Toot!"
+			$NameInput.placeholder_text = "Input url to Mastodon Toot!"
 			$StatusLabel.show()
 			$Reset.hide()
 			$StatusLabel.text = "Input url to Mastodon Toot!"
@@ -263,11 +290,15 @@ func _change_to_state(new_state):
 			print("Disabled UI")
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
+			$ModeSelect/Manual.hide()
 			$ModeSelect/Mastodon.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
-			$InputField2.hide()
-			$Button.hide()
+			$NameInput.hide()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.hide()
+			$StartButton.hide()
 			$SettingsLabel.hide()
 			$StatusLabel.hide()
 			$Exit.show()
@@ -277,10 +308,14 @@ func _change_to_state(new_state):
 		states.GAME_END:
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
+			$ModeSelect/Manual.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
-			$InputField2.hide()
-			$Button.hide()
+			$NameInput.hide()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.hide()
+			$StartButton.hide()
 			$SettingsLabel.hide()
 			$StatusLabel.hide()
 			$Exit.hide()
@@ -291,9 +326,13 @@ func _change_to_state(new_state):
 			$ModeSelect/Picarto.hide()
 			$ModeSelect/Twitch.hide()
 			$ModeSelect/Mastodon.hide()
+			$ModeSelect/Manual.hide()
 			$ModeSelect/MastodonSettings.hide()
-			$InputField2.hide()
-			$Button.hide()
+			$NameInput.hide()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.hide()
+			$StartButton.hide()
 			$SettingsLabel.show()
 			$StatusLabel.hide()
 			$Exit.show()
@@ -308,11 +347,14 @@ func _change_to_state(new_state):
 			$ModeSelect/Manual.hide()
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
-			$InputField2.hide()
-			$Button.hide()
+			$NameInput.hide()
+			$TokenInput.hide()
+			$TokenButton.hide()
+			$SaveButton.hide()
+			$StartButton.hide()
 			$SettingsLabel.hide()
 			$Exit.hide()
-			$InputField2.hide()
+			$NameInput.hide()
 			$StatusLabel.hide()
 			$Reset.hide()
 			$StatusLabel.hide()
@@ -330,3 +372,24 @@ func _on_liked_toggled(_button_pressed):
 
 func _on_link_button_down():
 	OS.shell_open("https://manikobunneh.itch.io/")
+
+func _on_start_button_pressed():
+	if mode == modes.TWITCH or mode == modes.PICARTO:
+		_change_to_state(states.DISABLED)
+	elif mode == modes.MASTODON:
+		var name_input = $NameInput.get_text().strip_edges(true, true)
+		if !_validate_url(name_input, true):
+			set_error("Please put in a valid toot URL")
+			return
+		else:
+			toot_url = name_input
+			_change_to_state(states.DISABLED)
+	else:
+		_change_to_state(states.DISABLED)
+		game.handle_auto_start()
+
+func _on_token_button_pressed():
+	OS.shell_open("https://oauth.picarto.tv/chat/bot")
+
+func _on_main_wait_for_raffle():
+	current_state = states.WAITING

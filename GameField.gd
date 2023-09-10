@@ -9,6 +9,7 @@ var debug_turns = 45
 var debug_spawned = 0
 var spawned_avatars = []
 var knocked_avatars = []
+var positions = []
 var winner = ""
 var timer_wait = 1.0
 var participating_users = []
@@ -26,6 +27,7 @@ var fighting = false
 @onready var knock_out_timer : Timer = $KnockOutTimer
 @onready var winner_text : Label = $/root/Main/MainUi/Winner
 @onready var settings : Node = $/root/Main/Settings
+@onready var exit_button : Button = $/root/Main/Settings/Exit
 @onready var main_ui : Node = $/root/Main/MainUi
 @onready var websocket : Node = $Websocket
 @onready var auto_timer = settings.auto_timer
@@ -55,6 +57,7 @@ func _on_spwan_timer_timeout():
 			winner.winner = true
 			stop_emitters()
 			fighting = false
+			exit_button.show()
 			settings._change_to_state(settings.states.GAME_END)
 		else:
 			print("Knocking looser")
@@ -119,6 +122,7 @@ func fight():
 	determine_winner()
 	$DebugTimer.stop()
 	$DustTimer.start()
+	exit_button.hide()
 
 func _on_fight_countdown_timeout():
 	spawned_avatars = get_tree().get_nodes_in_group("avatar")
@@ -193,7 +197,6 @@ func _on_auto_start_timer_timeout():
 	print("GameField autostart timer timeout")
 	$AutoStartTimer.stop()
 	auto_start.emit()
-
 
 func _on_dust_timer_timeout():
 	if fight_started:
