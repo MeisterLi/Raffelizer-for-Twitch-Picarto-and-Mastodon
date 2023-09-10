@@ -24,13 +24,15 @@ Note that the Raffelizer will not log into any account to fetch information, so 
 Picarto usage
 =============
 
-If you plan on using this tool with Picarto, please open your Picarto chat, then open the Developer Tools of your browser and go to the "Network" tab.  
+​Picarto usage has been drastically simplified now.
 
-Reload the page and filter the results by "Chat". You should see a very long link staring with wss://chat.picarto.tv/chat/token=<token>.  
+To use the Picarto mode, you will need your Picarto username (not channel name) and a bot token, which you can request here:
 
-Copy this link into the Raffelizer after pressing "Picarto". You can then use the Save button to store the url in the settings file afterward.
+https://oauth.picarto.tv/chat/bot
 
-**Note:** There might be two entries found with this filter. If you click on them, you should see one with several entries and one with none - it's the one showing entries that you need to copy.
+Press "Save" after putting both in to save it in the config files and press "Start" to get going!
+
+For testing, this will also work when you are not streaming and just write in the chat!
 
 HTML5 Version
 =============
