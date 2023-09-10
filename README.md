@@ -44,14 +44,21 @@ Reset and Run automatically
 
 To run the game indefinitely, open the Settings on the first screen and check the box next to "Auto-Timer". Also input the time for users to join fights (in Minutes) and time between each fight. Press return on both text boxes!
 
+Manual Mode
+===========================
+
+A Manual Mode has been added to the Raffelizer, which allows you to set a custom List with custom Icons and Name entries. You can also save your list into a json for later use.
+
+
+
 Custom Background
 =================
 
-You can put an image of 1024\*600 resolution into your _%AppData%\\Godot\\app\_userdata\\Raffelizer_ (Windows) or   
-_~/.local/share/godot/app\_userdata/Raffelizer (Linux)_  
+You can put an image of 1024*600 resolution into your %AppData%\Godot\app_userdata\Raffelizer (Windows) or 
+~/.local/share/godot/app_userdata/Raffelizer (Linux)
 directory and name it battlefield.png to load a custom background on App start.
 
-To toggle an entirely Magenta-Colored background and flat buttons and input fields, in case you want to overlay the Raffelizer over something using OBS, enable "Transparency Mode" in the settings or toggle it on the fly pressing "Ctrl and T" on your keyboard.
+To toggle Transparency Mode, enable "Transparency Mode" in the settings or toggle it on the fly pressing "Ctrl and T" on your keyboard. In OBS, you can make use of this mode by using "Game Capture" together with "Transparency" ticked.
 
 Builds
 ===========
