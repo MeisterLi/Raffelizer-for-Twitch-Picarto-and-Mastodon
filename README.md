@@ -24,13 +24,15 @@ Note that the Raffelizer will not log into any account to fetch information, so 
 Picarto usage
 =============
 
-If you plan on using this tool with Picarto, please open your Picarto chat, then open the Developer Tools of your browser and go to the "Network" tab.  
+​Picarto usage has been drastically simplified now.
 
-Reload the page and filter the results by "Chat". You should see a very long link staring with wss://chat.picarto.tv/chat/token=<token>.  
+To use the Picarto mode, you will need your Picarto username (not channel name) and a bot token, which you can request here:
 
-Copy this link into the Raffelizer after pressing "Picarto". You can then use the Save button to store the url in the settings file afterward.
+https://oauth.picarto.tv/chat/bot
 
-**Note:** There might be two entries found with this filter. If you click on them, you should see one with several entries and one with none - it's the one showing entries that you need to copy.
+Press "Save" after putting both in to save it in the config files and press "Start" to get going!
+
+For testing, this will also work when you are not streaming and just write in the chat!
 
 HTML5 Version
 =============
@@ -42,14 +44,21 @@ Reset and Run automatically
 
 To run the game indefinitely, open the Settings on the first screen and check the box next to "Auto-Timer". Also input the time for users to join fights (in Minutes) and time between each fight. Press return on both text boxes!
 
+Manual Mode
+===========================
+
+A Manual Mode has been added to the Raffelizer, which allows you to set a custom List with custom Icons and Name entries. You can also save your list into a json for later use.
+
+
+
 Custom Background
 =================
 
-You can put an image of 1024\*600 resolution into your _%AppData%\\Godot\\app\_userdata\\Raffelizer_ (Windows) or   
-_~/.local/share/godot/app\_userdata/Raffelizer (Linux)_  
+You can put an image of 1024*600 resolution into your %AppData%\Godot\app_userdata\Raffelizer (Windows) or 
+~/.local/share/godot/app_userdata/Raffelizer (Linux)
 directory and name it battlefield.png to load a custom background on App start.
 
-To toggle an entirely Magenta-Colored background and flat buttons and input fields, in case you want to overlay the Raffelizer over something using OBS, enable "Transparency Mode" in the settings or toggle it on the fly pressing "Ctrl and T" on your keyboard.
+To toggle Transparency Mode, enable "Transparency Mode" in the settings or toggle it on the fly pressing "Ctrl and T" on your keyboard. In OBS, you can make use of this mode by using "Game Capture" together with "Transparency" ticked.
 
 Builds
 ===========
