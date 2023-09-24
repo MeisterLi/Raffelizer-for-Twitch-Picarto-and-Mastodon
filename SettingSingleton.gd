@@ -7,6 +7,7 @@ var config = ConfigFile.new()
 @onready var timer : Timer = $AutoTimer
 @onready var background = $/root/Main/ParallaxBackground
 @onready var color_rect = $/root/Main/ColorRect
+@onready var ignore_user_list : ItemList = $SettingsPanel/Ignore_Names/ItemList
 signal no_config
 signal reset_game
 signal exit_to_url
@@ -26,6 +27,8 @@ var mode
 var mastodon_following = true
 var mastodon_boosted = true
 var mastodon_faved = true
+var ignore_users = []
+var json = JSON.new()
 
 enum states {SELECT_MODE, INPUT_TWITCH, INPUT_PICARTO, INPUT_MASTODON, INPUT_WORD, DISABLED, GAME_END, SETTINGS, INPUT_MANUAL, WAITING}
 enum modes {TWITCH, PICARTO, MASTODON, MANUAL}
@@ -39,6 +42,9 @@ func _ready():
 	twitch_name = config.get_value("config", "twitch_name", "")
 	picarto_name = config.get_value("config", "picarto_name", "")
 	picarto_token = config.get_value("config", "picarto_token", "")
+	ignore_users = config.get_value("config", "ignore_users")
+	for item in ignore_users:
+		ignore_user_list.add_item(item)
 	print("auto_timer is " + str(auto_timer))
 	
 	_change_to_state(states.SELECT_MODE)
@@ -47,6 +53,13 @@ func _on_twitch_pressed():
 	_change_to_state(states.INPUT_TWITCH)
 	twitch = true
 	mode = modes.TWITCH
+
+func get_ignored_users():
+	var err = config.load("user://raffelizer.ini")
+	if err != OK:
+		pass
+	ignore_users = config.get_value("config", "ignore_users", "")
+	return ignore_users
 	
 func _on_picarto_pressed():
 	_change_to_state(states.INPUT_PICARTO)
@@ -393,3 +406,24 @@ func _on_token_button_pressed():
 
 func _on_main_wait_for_raffle():
 	current_state = states.WAITING
+
+func _on_button_pressed():
+	var item = $SettingsPanel/Ignore_Names/LineEdit.get_text()
+	if item != "":
+		ignore_user_list.add_item(item)
+
+func _on_button_2_pressed():
+	var items = []
+	var item_number = ignore_user_list.get_item_count()
+	for item in range(item_number):
+		items.append(ignore_user_list.get_item_text(item))
+	config.set_value("config", "ignore_users", items)
+	var err = config.save("user://raffelizer.ini")
+	if err != OK:
+		print(err)
+	$StatusLabel.text = "Saved!"
+
+func _on_button_3_pressed():
+	var selected_items = ignore_user_list.get_selected_items()
+	for item in selected_items:
+		ignore_user_list.remove_item(item)

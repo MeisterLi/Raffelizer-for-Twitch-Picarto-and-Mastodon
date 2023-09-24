@@ -94,7 +94,7 @@ func spawn_avatar_debug(avatar_name, picarto_url):
 func determine_winner():
 	spawned_avatars.shuffle()
 	winner = randi_range(0, spawned_avatars.size() - 1)
-	winner = spawned_avatars[winner]
+	return spawned_avatars[winner]
 	
 func knock_out_loser():
 	for avatar in spawned_avatars:
@@ -119,7 +119,13 @@ func fight():
 	knock_out_timer.set_wait_time(timer_wait)
 	for avatar in spawned_avatars:
 		avatar.fight()
-	determine_winner()
+	var ignored_users = settings.get_ignored_users()
+	var determined_winner = ""
+	while determined_winner is String || determined_winner.user_name in ignored_users:
+		print("Found user to ignore, silently choosing another...")
+		determined_winner = determine_winner()
+	winner = determined_winner
+	
 	$DebugTimer.stop()
 	$DustTimer.start()
 	exit_button.hide()

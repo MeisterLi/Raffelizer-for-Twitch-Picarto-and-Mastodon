@@ -163,6 +163,72 @@ libraries = {
 }
 script = ExtResource("3_af53c")
 
+[node name="Ignore_Names" type="Control" parent="SettingsPanel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LineEdit" type="LineEdit" parent="SettingsPanel/Ignore_Names"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 376.0
+offset_right = 640.0
+offset_bottom = 407.0
+
+[node name="Button" type="Button" parent="SettingsPanel/Ignore_Names"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.129
+anchor_right = 0.008
+anchor_bottom = 0.129
+offset_left = 720.0
+offset_top = 370.84
+offset_right = 758.68
+offset_bottom = 402.84
+text = "Add"
+
+[node name="Button3" type="Button" parent="SettingsPanel/Ignore_Names"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.129
+anchor_right = 0.008
+anchor_bottom = 0.129
+offset_left = 648.0
+offset_top = 370.84
+offset_right = 718.68
+offset_bottom = 402.84
+text = "Remove"
+
+[node name="Button2" type="Button" parent="SettingsPanel/Ignore_Names"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.129
+anchor_right = 0.008
+anchor_bottom = 0.129
+offset_left = 768.0
+offset_top = 370.84
+offset_right = 811.68
+offset_bottom = 402.84
+text = "Save"
+
+[node name="ItemList" type="ItemList" parent="SettingsPanel/Ignore_Names"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 416.0
+offset_right = 812.0
+offset_bottom = 592.0
+
+[node name="Label2" type="Label" parent="SettingsPanel/Ignore_Names"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 376.0
+offset_right = 165.0
+offset_bottom = 402.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Ignored Names:"
+
 [node name="ModeSelect" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -444,6 +510,9 @@ wait_time = 4.0
 [connection signal="toggled" from="SettingsPanel/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="toggled" from="SettingsPanel/TransparencyMode" to="." method="_on_transparency_mode_toggled"]
 [connection signal="button_down" from="SettingsPanel/Sprite2D/Link" to="." method="_on_link_button_down"]
+[connection signal="pressed" from="SettingsPanel/Ignore_Names/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="SettingsPanel/Ignore_Names/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="SettingsPanel/Ignore_Names/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="ModeSelect/Twitch" to="." method="_on_twitch_pressed"]
 [connection signal="pressed" from="ModeSelect/Manual" to="." method="_on_manual_pressed"]
 [connection signal="pressed" from="ModeSelect/Mastodon" to="." method="_on_mastadon_pressed"]
