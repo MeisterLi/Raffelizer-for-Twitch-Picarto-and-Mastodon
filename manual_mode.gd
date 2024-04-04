@@ -41,24 +41,6 @@ func _on_add_button_button_down():
 	if entry.get_text() != "":
 		add_item(entry.get_text(), previewSprite.get_texture(), current_path)
 
-#func add_item(new_entry, new_sprite, new_path):
-#	var listItem = []
-#	var jsonEntry = []
-#	listItem.append(new_entry)
-#	listItem.append(new_sprite)
-#	jsonEntry.append(new_entry)
-#	jsonEntry.append(new_path)
-#	list_entries_json.append(jsonEntry)
-#
-#	var addedItem = itemList.add_item(listItem[0], listItem[1])
-#	listItem.append(addedItem)
-#	list_entries.append(listItem)
-#	itemList.get_item_rect(addedItem)
-#	var trash : Node2D = trashes.instantiate()
-#	itemList.add_child(trash)
-#	trash.set_index(addedItem)
-#	trash.set_itemList(itemList)
-
 func add_item(new_entry, new_sprite, new_path):
 	var item = items.instantiate()
 	itemList.add_child(item)

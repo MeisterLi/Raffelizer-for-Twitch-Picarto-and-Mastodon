@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://y8lobffg4rlx"]
+[gd_scene load_steps=23 format=3 uid="uid://y8lobffg4rlx"]
 
 [ext_resource type="Script" path="res://avatar.gd" id="1_1nqug"]
 [ext_resource type="Texture2D" uid="uid://c33j7iks8ltsr" path="res://Images/icon.png" id="2_hxsqf"]
 [ext_resource type="Texture2D" uid="uid://ddo65uqpg4vhm" path="res://Images/particles-flipbook.png" id="3_b4mer"]
 [ext_resource type="Texture2D" uid="uid://ddjj4bkhkfdbe" path="res://Images/spritesheet.png" id="4_5qsy0"]
+[ext_resource type="Texture2D" uid="uid://crvj771b5u2ce" path="res://Images/trash.png" id="5_24d7o"]
 
 [sub_resource type="Animation" id="Animation_b3e7f"]
 resource_name = "Backflip"
@@ -252,13 +253,11 @@ size = Vector2(63, 63)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticlesMaterial_rcj22"]
 particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 215.05
 initial_velocity_max = 215.05
 angular_velocity_min = -185.81
 angular_velocity_max = 232.26
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yso4r"]
 atlas = ExtResource("4_5qsy0")
@@ -297,7 +296,6 @@ animations = [{
 }]
 
 [node name="Avatar" type="Area2D" groups=["avatar"]]
-position = Vector2(0, 3)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_1nqug")
@@ -328,10 +326,10 @@ autowrap_mode = 1
 max_lines_visible = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-speed_scale = 3.0
 libraries = {
 "": SubResource("AnimationLibrary_qys04")
 }
+speed_scale = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_4tg4t")
@@ -366,7 +364,15 @@ frame_progress = 0.684342
 wait_time = 5.0
 one_shot = true
 
+[node name="RemoveButton" type="TextureButton" parent="."]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture_hover = ExtResource("5_24d7o")
+
 [connection signal="area_entered" from="." to="." method="_on_avatar_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="DodgeTimer" to="." method="_on_dodge_timer_timeout"]
 [connection signal="timeout" from="ShrinkTimer" to="." method="_on_shrink_timer_timeout"]
+[connection signal="pressed" from="RemoveButton" to="." method="_on_remove_button_pressed"]

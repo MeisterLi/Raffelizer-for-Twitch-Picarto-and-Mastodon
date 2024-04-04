@@ -157,10 +157,10 @@ action_mode = 0
 flat = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SettingsPanel/Sprite2D"]
-speed_scale = 2.4
 libraries = {
 "": SubResource("AnimationLibrary_6iro5")
 }
+speed_scale = 2.4
 script = ExtResource("3_af53c")
 
 [node name="Ignore_Names" type="Control" parent="SettingsPanel"]

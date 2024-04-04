@@ -266,6 +266,8 @@ func _change_to_state(new_state):
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
 			$NameInput.show()
+			if picarto_token != "":
+				$TokenInput.placeholder_text = "Token saved but not shown"
 			$TokenInput.show()
 			$TokenButton.show()
 			$SaveButton.show()

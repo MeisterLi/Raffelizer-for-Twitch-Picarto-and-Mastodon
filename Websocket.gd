@@ -9,12 +9,13 @@ const client_secret := "3qxwbsjch7yemq9bh8z0wjufncdt0r"
 var trigger_word = ""
 var websocket_url = "wss://irc-ws.chat.twitch.tv"
 var picarto_url = "wss://chat.picarto.tv/bot/username={user}&password={pw}"
+var picarto_image_url
 var participating_users = []
 var twitch = true
 var twitch_name
 var twitch_token = ""
 var connection_established = false
-var animationNames = ["!rFlip", "!rRainbow", "!rMushroom"]
+var animationNames = ["!rFlip", "!rRainbow", "!rMushroom", "!rRemoveme"]
 var started = false
 var attempting_connection = false
 
@@ -61,14 +62,14 @@ func _process(_delta):
 
 func connect_websocket():
 	#We need to pretend to be a browser for Picarto to be happy
-	var url
+	var web_url
 	if !twitch:
 		_client.set_handshake_headers(["User-Agent: PTV-BOT-%s" % user_name])
-		url = picarto_url.format({"user" : user_name, "pw" : password})
+		web_url = picarto_url.format({"user" : user_name, "pw" : password})
 	else:
-		url = websocket_url
-	print("Connecting to websocket {url}".format({"url" : url}))
-	var err = _client.connect_to_url(url)
+		web_url = websocket_url
+	print("Connecting to websocket {url}".format({"url" : web_url}))
+	var err = _client.connect_to_url(web_url)
 	attempting_connection = false
 	if err != OK:
 		print(err)
@@ -99,9 +100,9 @@ func get_twitch_token():
 		"client_secret=%s" % client_secret,
 		"grant_type=client_credentials"
 	])
-	var url = twitch_request_url + "?" + "&".join(body_parts)
+	var twitch_url = twitch_request_url + "?" + "&".join(body_parts)
 		
-	var http_error = http_request.request(url, ['Content-Type: application/x-www-form-urlencoded'], 2)
+	var http_error = http_request.request(twitch_url, ['Content-Type: application/x-www-form-urlencoded'], 2)
 	if http_error == OK:
 		print("Twitch Token request made")
 
@@ -142,7 +143,7 @@ func handle_twitch(packet):
 					break
 			
 func spawn_avatar(custom_user_name):
-	gamefield.spawn_avatar(custom_user_name, twitch_token, picarto_url)
+	gamefield.spawn_avatar(custom_user_name, twitch_token, picarto_image_url)
 
 func handle_picarto(packet):
 	var _err = _json.parse(packet)
@@ -154,7 +155,7 @@ func handle_picarto(packet):
 			
 func check_for_trigger_word(word, directory):
 	if word.to_lower() in directory["m"].to_lower():
-		picarto_url = "https://images.picarto.tv/" + directory["i"]
+		picarto_image_url = "https://images.picarto.tv/" + directory["i"]
 		user_name = directory["n"]
 		spawn_avatar(user_name)
 	else:

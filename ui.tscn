@@ -103,10 +103,10 @@ vertical_alignment = 1
 metadata/_edit_layout_mode = 1
 
 [node name="Bounce" type="AnimationPlayer" parent="RaffleWordLabel"]
-speed_scale = 3.0
 libraries = {
 "": SubResource("AnimationLibrary_umj4t")
 }
+speed_scale = 3.0
 
 [node name="CountDownLabel" type="Label" parent="."]
 visible = false

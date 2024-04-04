@@ -63,7 +63,7 @@ func _on_spwan_timer_timeout():
 			print("Knocking looser")
 			knock_out_loser()
 
-func spawn_avatar(avatar_name, twitch_token, picarto_url, mastodon_home = "", avatar_icon = ""):
+func spawn_avatar(avatar_name, twitch_token, picarto_image_url, mastodon_home = "", avatar_icon = ""):
 	if fight_started:
 		pass
 	elif avatar_name in participating_users:
@@ -74,18 +74,18 @@ func spawn_avatar(avatar_name, twitch_token, picarto_url, mastodon_home = "", av
 		add_child(avatar)
 		avatar.user_name = avatar_name
 		avatar.twitch_token = twitch_token
-		avatar.picarto_url = picarto_url
+		avatar.picarto_image_url = picarto_image_url
 		avatar.mastodon_home = mastodon_home
 		avatar.avatar_icon = avatar_icon
 		avatar.start()
 
-func spawn_avatar_debug(avatar_name, picarto_url):
+func spawn_avatar_debug(avatar_name, picarto_image_url):
 	#for debugging
 	var avatar : Area2D = avatars.instantiate()
 	
 	add_child(avatar)
 	avatar.user_name = avatar_name
-	avatar.picarto_url = picarto_url
+	avatar.picarto_image_url = picarto_image_url
 	avatar.start()
 	debug_spawned = debug_spawned + 1
 	if debug_turns == debug_spawned:
@@ -181,6 +181,7 @@ func _on_debris_timer_timeout():
 
 func trigger_animation(item, user_name):
 	spawned_avatars = get_tree().get_nodes_in_group("avatar")
+	print("Animation triggered from: " + user_name + " with item: " + item)
 	for avatar in spawned_avatars:
 		if avatar.user_name == user_name:
 			avatar.custom_animation = item
@@ -213,3 +214,10 @@ func _on_dust_timer_timeout():
 
 func _on_sheep_timer_timeout():
 	sheepCloud.set_emitting(true)
+
+func remove_user(user_name):
+	spawned_avatars = get_tree().get_nodes_in_group("avatar")
+	for avatar in spawned_avatars:
+		if avatar.user_name == user_name:
+			spawned_avatars.erase(avatar)
+			avatar.queue_free()

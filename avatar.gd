@@ -23,7 +23,7 @@ var twitch_token = ""
 var twitch_client_id = "0g3zp9jikletk9afwneyw75iobuslx"
 @onready var participating_users = gamefield.participating_users
 var twitch = false
-var picarto_url
+var picarto_image_url
 var move_offset
 var dodge = false
 var waiting = true
@@ -98,7 +98,7 @@ func get_twitch_avatar_url():
 		print("Error fetching Avatar: " + http_error)
 
 func get_picarto_avatar_url():
-	download_image(picarto_url)
+	download_image(picarto_image_url)
 	display_name = user_name
 	
 func download_image(url):
@@ -204,30 +204,25 @@ func check_animation_state():
 	if winner:
 		if animation_player.get_current_animation() == "Bounce":
 			animation_player.stop()
-		else:
-			animation_player.play("Winner")
+		animation_player.play("Winner")
 	if custom_animation == "Flip":
-		if animation_player.get_current_animation() == "Bounce":
-			animation_player.stop()
-		else:
-			animation_player.play("Backflip")
-			custom_animation = ""
+		animation_player.play("Backflip")
+		custom_animation = ""
 	if custom_animation == "Rainbow":
 		animation_player.play("Rainbow")
 		custom_animation = ""
 	if custom_animation == "Mushroom":
+		print("Playing Mushroom animation")
 		animation_player.play("Mushroom")
 		custom_animation = "Waiting"
+	if custom_animation == "Removeme":
+		remove_self()
+	if custom_animation == "" and animation_player.get_current_animation() == "" and not knocked and not ko and not winner:
+		animation_player.play("Bounce")
 	if moving_to_center:
 		if animation_player.get_current_animation() == "Bounce":
 			animation_player.stop()
-		else:
-			animation_player.play("Walk")
-	if knocked:
-		if animation_player.get_current_animation() == "Walk":
-			animation_player.stop()
-		else:
-			animation_player.play("Bounce")
+		animation_player.play("Walk")
 	if ko and not firstRun:
 		var rotationvalue = randi_range(-92, -85) if randf() > 0.5  else randi_range(92, 85)
 		sprite.set_rotation(deg_to_rad(rotationvalue))
@@ -249,12 +244,19 @@ func _on_avatar_area_entered():
 func _on_dodge_timer_timeout():
 	dodge = false
 
-func _on_animation_player_animation_finished():
+func _on_animation_player_animation_finished(animation_name):
+	print("Animation done playing!")
 	if not ko and not moving_to_center and not winner and not custom_animation == "Waiting":
 		animation_player.play("Bounce")
 	elif custom_animation == "Waiting":
-		$ShrinkTimer.start()
+		$ShrinkTimer.start(5)
 
 func _on_shrink_timer_timeout():
-	custom_animation = "Shrink"
-	animation_player.play_backwards("Shrink")
+	animation_player.play_backwards("Mushroom")
+	custom_animation = ""
+
+func _on_remove_button_pressed():
+	remove_self()
+	
+func remove_self():
+	gamefield.remove_user(user_name)
