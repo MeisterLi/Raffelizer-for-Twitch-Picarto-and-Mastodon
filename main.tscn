@@ -1,15 +1,20 @@
 [gd_scene load_steps=8 format=3 uid="uid://b6lm2plhnbubg"]
 
 [ext_resource type="PackedScene" uid="uid://cwuv10v00p6ag" path="res://game_field.tscn" id="1_jmxeg"]
-[ext_resource type="Script" path="res://main.gd" id="1_v2c83"]
+[ext_resource type="Script" uid="uid://wg4mihc2bgc2" path="res://main.gd" id="1_v2c83"]
 [ext_resource type="PackedScene" uid="uid://bou3d0fyt567u" path="res://ui.tscn" id="2_g4yd0"]
 [ext_resource type="PackedScene" uid="uid://bavch4mqab5ei" path="res://settings.tscn" id="2_ikc11"]
 [ext_resource type="Texture2D" uid="uid://cjqpqyyshhhje" path="res://Images/battlefield.png" id="5_utxbf"]
-[ext_resource type="Script" path="res://Originaltournament.gd" id="6_pknah"]
+[ext_resource type="Script" uid="uid://bh7irw716aakx" path="res://Originaltournament.gd" id="6_pknah"]
 [ext_resource type="PackedScene" uid="uid://ct4lf8ka4nmxa" path="res://manual_mode.tscn" id="7_qddh8"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v2c83")
+
+[node name="Originaltournament" type="Sprite2D" parent="."]
+position = Vector2(512, 300)
+texture = ExtResource("5_utxbf")
+script = ExtResource("6_pknah")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -28,18 +33,12 @@ metadata/_edit_lock_ = true
 
 [node name="Settings" parent="." instance=ExtResource("2_ikc11")]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-scroll_ignore_camera_zoom = true
-
-[node name="Originaltournament" type="Sprite2D" parent="ParallaxBackground"]
-position = Vector2(512, 300)
-texture = ExtResource("5_utxbf")
-script = ExtResource("6_pknah")
-
 [node name="ManualMode" parent="." instance=ExtResource("7_qddh8")]
 visible = false
 
-[connection signal="no_config" from="." to="MainUi" method="_on_main_no_config"]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(512, 300)
+
 [connection signal="start" from="." to="MainUi" method="_on_main_start"]
 [connection signal="wait_for_raffle" from="." to="MainUi" method="_on_main_wait_for_raffle"]
 [connection signal="wait_for_raffle" from="." to="Settings" method="_on_main_wait_for_raffle"]
@@ -47,6 +46,5 @@ visible = false
 [connection signal="connected" from="GameField" to="MainUi" method="_on_game_field_connected"]
 [connection signal="raffle_word_entered" from="MainUi" to="." method="_on_ui_raffle_word_entered"]
 [connection signal="start_button" from="MainUi" to="GameField" method="_on_ui_start_button"]
-[connection signal="url_entered" from="MainUi" to="." method="_on_ui_url_entered"]
 [connection signal="exit_to_url" from="Settings" to="MainUi" method="_on_settings_exit_to_url"]
 [connection signal="reset_game" from="Settings" to="GameField" method="_on_settings_reset_game"]

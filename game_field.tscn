@@ -1,15 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwuv10v00p6ag"]
+[gd_scene load_steps=15 format=3 uid="uid://cwuv10v00p6ag"]
 
-[ext_resource type="Script" path="res://GameField.gd" id="1_q6o8f"]
+[ext_resource type="Script" uid="uid://cbdto8bjjj8oh" path="res://GameField.gd" id="1_q6o8f"]
 [ext_resource type="PackedScene" uid="uid://y8lobffg4rlx" path="res://avatar.tscn" id="2_rocuv"]
-[ext_resource type="Script" path="res://FightCountdown.gd" id="3_caofy"]
+[ext_resource type="Script" uid="uid://c25mvwq4ukymo" path="res://FightCountdown.gd" id="3_caofy"]
 [ext_resource type="PackedScene" uid="uid://3y8qoyj1eg6d" path="res://debris.tscn" id="3_ti1um"]
-[ext_resource type="Script" path="res://Websocket.gd" id="4_a5hbw"]
+[ext_resource type="Script" uid="uid://bd5w8hq0u2ti0" path="res://Websocket.gd" id="4_a5hbw"]
 [ext_resource type="Texture2D" uid="uid://coy5l657gyfo1" path="res://Images/dust1.png" id="5_e4vak"]
 [ext_resource type="Texture2D" uid="uid://cfcnwaf508skk" path="res://Images/dust2.png" id="6_4a2ao"]
 [ext_resource type="Texture2D" uid="uid://di5nhhokdgbti" path="res://Images/SheepCloud.svg" id="6_ldcwy"]
 [ext_resource type="Texture2D" uid="uid://dxpx5472q53sv" path="res://Images/cloud.png" id="7_73a47"]
 [ext_resource type="Texture2D" uid="uid://dnixgcn1ctk3i" path="res://Images/cloud2.png" id="8_311kf"]
+[ext_resource type="PackedScene" uid="uid://bh226tl7ntbia" path="res://showdown.tscn" id="11_mkkyl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jssoe"]
 size = Vector2(48, 48)
@@ -49,13 +50,13 @@ z_index = 5
 scale = Vector2(1.1, 1.1)
 emitting = false
 amount = 4
+texture = ExtResource("5_e4vak")
 lifetime = 2.0
 speed_scale = 3.06
 explosiveness = 0.05
 randomness = 0.05
 fixed_fps = 30
 draw_order = 1
-texture = ExtResource("5_e4vak")
 spread = 69.39
 gravity = Vector2(0, 0)
 initial_velocity_min = 84.11
@@ -78,13 +79,13 @@ z_index = 5
 scale = Vector2(1.1, 1.1)
 emitting = false
 amount = 1
+texture = ExtResource("6_ldcwy")
 lifetime = 2.0
 one_shot = true
 speed_scale = 1.32
 explosiveness = 0.49
 fixed_fps = 30
 draw_order = 1
-texture = ExtResource("6_ldcwy")
 spread = 69.39
 gravity = Vector2(0, 0)
 initial_velocity_min = 84.11
@@ -105,13 +106,13 @@ z_index = 5
 scale = Vector2(1.1, 1.1)
 emitting = false
 amount = 4
+texture = ExtResource("6_4a2ao")
 lifetime = 2.0
 speed_scale = 3.06
 explosiveness = 0.05
 randomness = 0.05
 fixed_fps = 30
 draw_order = 1
-texture = ExtResource("6_4a2ao")
 spread = 69.39
 gravity = Vector2(0, 0)
 initial_velocity_min = 84.11
@@ -132,9 +133,9 @@ color_ramp = SubResource("Gradient_o4xct")
 [node name="Puff1" type="CPUParticles2D" parent="CenterPosition"]
 emitting = false
 amount = 2
+texture = ExtResource("7_73a47")
 fixed_fps = 30
 draw_order = 1
-texture = ExtResource("7_73a47")
 particle_flag_align_y = true
 spread = 180.0
 gravity = Vector2(0, 0)
@@ -147,9 +148,9 @@ color_ramp = SubResource("Gradient_d5adt")
 [node name="Puff2" type="CPUParticles2D" parent="CenterPosition"]
 emitting = false
 amount = 2
+texture = ExtResource("8_311kf")
 fixed_fps = 30
 draw_order = 1
-texture = ExtResource("8_311kf")
 particle_flag_align_y = true
 spread = 180.0
 gravity = Vector2(0, 0)
@@ -183,10 +184,12 @@ one_shot = true
 
 [node name="SheepTimer" type="Timer" parent="."]
 
+[node name="Showdown" parent="." instance=ExtResource("11_mkkyl")]
+visible = false
+
 [connection signal="timeout" from="KnockOutTimer" to="." method="_on_spwan_timer_timeout"]
 [connection signal="timeout" from="FightCountdown" to="." method="_on_fight_countdown_timeout"]
 [connection signal="area_entered" from="CenterPosition/Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="body_entered" from="CenterPosition/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="connected" from="Websocket" to="." method="_on_websocket_connected"]
 [connection signal="timeout" from="Websocket/Ping-Pong" to="Websocket" method="_on_ping_pong_timeout"]
 [connection signal="timeout" from="WalkTimer" to="." method="_on_walk_timer_timeout"]

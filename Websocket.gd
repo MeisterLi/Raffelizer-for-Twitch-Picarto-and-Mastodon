@@ -4,7 +4,7 @@ signal connected
 const twitch_client_id = "0g3zp9jikletk9afwneyw75iobuslx"
 const client_secret := "3qxwbsjch7yemq9bh8z0wjufncdt0r"
 @onready var gamefield : Node2D = get_parent()
-@onready var settings : Control = $/root/Main/Settings
+@onready var settings_node : settings = $/root/Main/Settings
 @onready var label : Label = $/root/Main/MainUi/RaffleWordLabel
 var trigger_word = ""
 var websocket_url = "wss://irc-ws.chat.twitch.tv"
@@ -26,14 +26,14 @@ var password
 
 func start():
 	started = true
-	twitch = settings.twitch
-	user_name = settings.picarto_name
-	password = settings.picarto_token
+	twitch = settings_node.twitch
+	user_name = settings_node.picarto_name
+	password = settings_node.picarto_token
 	label.show()
 	label.text = "Connecting..."
 	if twitch:
 		print("Twitch active!")
-		twitch_name = settings.twitch_name
+		twitch_name = settings_node.twitch_name
 	connect_websocket()
 		
 func set_trigger_word(word):

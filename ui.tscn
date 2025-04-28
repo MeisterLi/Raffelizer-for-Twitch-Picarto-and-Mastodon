@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bou3d0fyt567u"]
 
-[ext_resource type="Script" path="res://main_ui.gd" id="1_cio0b"]
+[ext_resource type="Script" uid="uid://btietq1kkg5sq" path="res://main_ui.gd" id="1_cio0b"]
 [ext_resource type="Theme" uid="uid://tdwt561v3cyk" path="res://text.tres" id="2_cm5rv"]
 
 [sub_resource type="Animation" id="Animation_8g6em"]
@@ -22,7 +22,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_umj4t"]
 _data = {
-"Bounce and tit": SubResource("Animation_8g6em")
+&"Bounce and tit": SubResource("Animation_8g6em")
 }
 
 [sub_resource type="GDScript" id="GDScript_eb2t1"]
@@ -67,9 +67,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -198.0
-offset_top = -91.008
+offset_top = -92.0
 offset_right = 185.0
-offset_bottom = -55.002
+offset_bottom = -55.994
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_cm5rv")
@@ -104,7 +104,7 @@ metadata/_edit_layout_mode = 1
 
 [node name="Bounce" type="AnimationPlayer" parent="RaffleWordLabel"]
 libraries = {
-"": SubResource("AnimationLibrary_umj4t")
+&"": SubResource("AnimationLibrary_umj4t")
 }
 speed_scale = 3.0
 

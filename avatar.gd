@@ -1,4 +1,5 @@
 extends Area2D
+class_name Avatar
 
 @onready var sprite : Sprite2D = $AvatarSprite/Sprite2D
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
@@ -6,6 +7,7 @@ extends Area2D
 @onready var gamefield : Node2D = get_parent()
 @onready var weapon : Sprite2D = $Weapon
 @onready var collisionShape: CollisionShape2D = $CollisionShape2D
+@onready var remove_button: TextureButton = $RemoveButton
 
 var moving_to_center = false
 var knock_position = Vector2.ZERO
@@ -52,8 +54,8 @@ func start():
 	else:
 		get_picarto_avatar_url()
 
-func get_free_spawn_location(knocked):
-	var possible_position = get_spawn_location(knocked)
+func get_free_spawn_location(being_knocked):
+	var possible_position = get_spawn_location(being_knocked)
 	var overlapping = false
 	var attempts = 0
 	if gamefield.positions != [] and gamefield.positions.size() <= 24: # After 24 participants, it becomes unrealistic to attempt to find a free space, so let's not
@@ -68,7 +70,7 @@ func get_free_spawn_location(knocked):
 				overlapping = true
 				break
 		if overlapping == true:
-			possible_position = get_free_spawn_location(knocked)
+			possible_position = get_free_spawn_location(being_knocked)
 			
 	return possible_position
 
@@ -198,39 +200,46 @@ func fight():
 	dodge = false
 	moving_to_center = true
 	waiting = false
-	collisionShape.queue_free()
 	
 func check_animation_state():
 	if winner:
 		if animation_player.get_current_animation() == "Bounce":
 			animation_player.stop()
 		animation_player.play("Winner")
-	if custom_animation == "Flip":
+		remove_button.hide()
+	elif custom_animation == "Flip":
 		animation_player.play("Backflip")
 		custom_animation = ""
-	if custom_animation == "Rainbow":
+	elif custom_animation == "Rainbow":
 		animation_player.play("Rainbow")
 		custom_animation = ""
-	if custom_animation == "Mushroom":
+	elif custom_animation == "Stop":
+		animation_player.stop()
+	elif custom_animation == "Mushroom":
 		print("Playing Mushroom animation")
 		animation_player.play("Mushroom")
 		custom_animation = "Waiting"
-	if custom_animation == "Removeme":
+	elif custom_animation == "Removeme":
 		remove_self()
-	if custom_animation == "" and animation_player.get_current_animation() == "" and not knocked and not ko and not winner:
+	elif custom_animation == "" and animation_player.get_current_animation() == "" and not knocked and not ko and not winner:
 		animation_player.play("Bounce")
-	if moving_to_center:
+		print("Triggering bounce from custom animation")
+	elif moving_to_center:
 		if animation_player.get_current_animation() == "Bounce":
 			animation_player.stop()
 		animation_player.play("Walk")
-	if ko and not firstRun:
+	elif ko and not firstRun:
 		var rotationvalue = randi_range(-92, -85) if randf() > 0.5  else randi_range(92, 85)
 		sprite.set_rotation(deg_to_rad(rotationvalue))
+		remove_button.hide()
 		animation_player.stop()
 		$Stars.show()
 		$Stars.play("stars")
 		firstRun = true
 	
+func stop():
+	custom_animation = "Stop"
+
 func knock():
 	knocked = true
 	knock_position = get_free_spawn_location(knocked)
@@ -244,12 +253,15 @@ func _on_avatar_area_entered():
 func _on_dodge_timer_timeout():
 	dodge = false
 
-func _on_animation_player_animation_finished(animation_name):
+func _on_animation_player_animation_finished(_animation_name):
 	print("Animation done playing!")
-	if not ko and not moving_to_center and not winner and not custom_animation == "Waiting":
+	if not ko and not moving_to_center and not winner and not custom_animation == "Waiting" and not custom_animation == "Stop":
 		animation_player.play("Bounce")
+		print("Triggering bounce from animation finished")
 	elif custom_animation == "Waiting":
 		$ShrinkTimer.start(5)
+	elif custom_animation == "Stop":
+		animation_player.stop()
 
 func _on_shrink_timer_timeout():
 	animation_player.play_backwards("Mushroom")
@@ -260,3 +272,6 @@ func _on_remove_button_pressed():
 	
 func remove_self():
 	gamefield.remove_user(user_name)
+
+func flip():
+	sprite.flip_h = true

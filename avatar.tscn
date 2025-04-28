@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://y8lobffg4rlx"]
 
-[ext_resource type="Script" path="res://avatar.gd" id="1_1nqug"]
+[ext_resource type="Script" uid="uid://n6l0hc1ypji" path="res://avatar.gd" id="1_1nqug"]
 [ext_resource type="Texture2D" uid="uid://c33j7iks8ltsr" path="res://Images/icon.png" id="2_hxsqf"]
 [ext_resource type="Texture2D" uid="uid://ddo65uqpg4vhm" path="res://Images/particles-flipbook.png" id="3_b4mer"]
 [ext_resource type="Texture2D" uid="uid://ddjj4bkhkfdbe" path="res://Images/spritesheet.png" id="4_5qsy0"]
@@ -237,15 +237,15 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qys04"]
 _data = {
-"Backflip": SubResource("Animation_b3e7f"),
-"Bounce": SubResource("Animation_8kd46"),
-"Mushroom": SubResource("Animation_ksrt7"),
-"RESET": SubResource("Animation_b0lqu"),
-"Rainbow": SubResource("Animation_j85gq"),
-"Setup": SubResource("Animation_6n47o"),
-"Shrink": SubResource("Animation_am0q5"),
-"Walk": SubResource("Animation_jkfxm"),
-"Winner": SubResource("Animation_u0agw")
+&"Backflip": SubResource("Animation_b3e7f"),
+&"Bounce": SubResource("Animation_8kd46"),
+&"Mushroom": SubResource("Animation_ksrt7"),
+&"RESET": SubResource("Animation_b0lqu"),
+&"Rainbow": SubResource("Animation_j85gq"),
+&"Setup": SubResource("Animation_6n47o"),
+&"Shrink": SubResource("Animation_am0q5"),
+&"Walk": SubResource("Animation_jkfxm"),
+&"Winner": SubResource("Animation_u0agw")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4tg4t"]
@@ -297,13 +297,14 @@ animations = [{
 
 [node name="Avatar" type="Area2D" groups=["avatar"]]
 collision_layer = 3
-collision_mask = 3
+collision_mask = 0
 script = ExtResource("1_1nqug")
 metadata/_edit_group_ = true
 
 [node name="AvatarSprite" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="AvatarSprite"]
+texture_filter = 1
 texture = ExtResource("2_hxsqf")
 
 [node name="Label" type="Label" parent="AvatarSprite/Sprite2D"]
@@ -327,7 +328,7 @@ max_lines_visible = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_qys04")
+&"": SubResource("AnimationLibrary_qys04")
 }
 speed_scale = 3.0
 
@@ -341,20 +342,22 @@ z_as_relative = false
 scale = Vector2(0.2, 0.2)
 emitting = false
 amount = 2
-process_material = SubResource("ParticlesMaterial_rcj22")
 texture = ExtResource("3_b4mer")
 randomness = 0.07
+process_material = SubResource("ParticlesMaterial_rcj22")
 
 [node name="DodgeTimer" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
 
 [node name="Weapon" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(35, 4)
 rotation = 0.345575
 
 [node name="Stars" type="AnimatedSprite2D" parent="."]
 visible = false
+texture_filter = 1
 position = Vector2(0, -45)
 sprite_frames = SubResource("SpriteFrames_a4hyt")
 animation = &"stars"

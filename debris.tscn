@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://3y8qoyj1eg6d"]
 
 [ext_resource type="Texture2D" uid="uid://dcyebtqk6jqbk" path="res://Images/newspaper.png" id="1_tuf6u"]
-[ext_resource type="Script" path="res://debris.gd" id="2_cr2re"]
+[ext_resource type="Script" uid="uid://c4k8itmlcep6l" path="res://debris.gd" id="2_cr2re"]
 
 [sub_resource type="Animation" id="Animation_ophy1"]
 resource_name = "whirl"
@@ -22,7 +22,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wv86k"]
 _data = {
-"whirl": SubResource("Animation_ophy1")
+&"whirl": SubResource("Animation_ophy1")
 }
 
 [node name="Debris" type="Sprite2D"]

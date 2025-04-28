@@ -1,14 +1,14 @@
 extends Node
+class_name settings
 
 var config = ConfigFile.new()
 @onready var main = $/root/Main
 @onready var game_ui = $/root/Main/MainUi
 @onready var game = $/root/Main/GameField
 @onready var timer : Timer = $AutoTimer
-@onready var background = $/root/Main/ParallaxBackground
+@onready var background = $/root/Main/Originaltournament
 @onready var color_rect = $/root/Main/ColorRect
 @onready var ignore_user_list : ItemList = $SettingsPanel/Ignore_Names/ItemList
-signal no_config
 signal reset_game
 signal exit_to_url
 var config_present = true
@@ -27,6 +27,7 @@ var mode
 var mastodon_following = true
 var mastodon_boosted = true
 var mastodon_faved = true
+var showdown = true
 var ignore_users = []
 var json = JSON.new()
 
@@ -42,9 +43,10 @@ func _ready():
 	twitch_name = config.get_value("config", "twitch_name", "")
 	picarto_name = config.get_value("config", "picarto_name", "")
 	picarto_token = config.get_value("config", "picarto_token", "")
-	ignore_users = config.get_value("config", "ignore_users")
-	for item in ignore_users:
-		ignore_user_list.add_item(item)
+	ignore_users = config.get_value("config", "ignore_users", "")
+	if ignore_users:
+		for item in ignore_users:
+			ignore_user_list.add_item(item)
 	print("auto_timer is " + str(auto_timer))
 	
 	_change_to_state(states.SELECT_MODE)
@@ -112,6 +114,7 @@ func _on_save_button_pressed():
 	if err != OK:
 		print(err)
 	$StatusLabel.text = "Saved!"
+	$StartButton.disabled = false
 	
 func _validate_url(url, mastodon):
 	print("Validating url")
@@ -213,7 +216,6 @@ func _on_auto_timer_timeout():
 	
 func _on_fight_cooldown_timeout():
 	reset_game.emit()
-	game.handle_auto_start()
 
 func _change_to_state(new_state):
 	match new_state:
@@ -225,13 +227,20 @@ func _change_to_state(new_state):
 			$ModeSelect/Mastodon.show()
 			$ModeSelect/Manual.show()
 			$SettingsPanel.hide()
+			game.time_between_rounds = int($SettingsPanel/AutoTimeWait.get_line_edit().text)
+			fight_cooldown = int($SettingsPanel/TimeBeforeRestart.get_line_edit().text)
+			$AutoTimer.set_wait_time(game.time_between_rounds)
+			print(game.time_between_rounds)
+			print(fight_cooldown)
 			$NameInput.hide()
 			$TokenInput.hide()
 			$TokenButton.hide()
 			$SaveButton.hide()
+			$Showdown.hide()
 			$StartButton.hide()
 			$SettingsLabel.show()
 			$StatusLabel.show()
+			$HideDataButton.hide()
 			$Exit.hide()
 			$StatusLabel.text = "Select Mode"
 			$Reset.hide()
@@ -249,11 +258,16 @@ func _change_to_state(new_state):
 			$TokenButton.hide()
 			$SaveButton.show()
 			$StartButton.show()
+			$StartButton.disabled = true
+			if twitch_name != "":
+				$StartButton.disabled = false
 			$StartButton.set_position(Vector2(512, 504))
 			$SettingsLabel.show()
 			$Exit.show()
+			$Showdown.show()
 			$NameInput.placeholder_text = twitch_name
 			$StatusLabel.show()
+			$HideDataButton.show()
 			$Reset.hide()
 			$StatusLabel.text = "Input Twitch channel name!"
 			current_state = states.INPUT_TWITCH
@@ -266,8 +280,10 @@ func _change_to_state(new_state):
 			$ModeSelect/MastodonSettings.hide()
 			$SettingsPanel.hide()
 			$NameInput.show()
+			$StartButton.disabled = true
 			if picarto_token != "":
 				$TokenInput.placeholder_text = "Token saved but not shown"
+				$StartButton.disabled = false
 			$TokenInput.show()
 			$TokenButton.show()
 			$SaveButton.show()
@@ -275,8 +291,10 @@ func _change_to_state(new_state):
 			$StartButton.set_position(Vector2(512, 504))
 			$SettingsLabel.show()
 			$Exit.show()
+			$Showdown.show()
 			$NameInput.placeholder_text = picarto_name
 			$StatusLabel.show()
+			$HideDataButton.show()
 			$Reset.hide()
 			$StatusLabel.text = "Input Picarto username and token!"
 			current_state = states.INPUT_PICARTO
@@ -292,6 +310,7 @@ func _change_to_state(new_state):
 			$TokenInput.hide()
 			$TokenButton.hide()
 			$SaveButton.hide()
+			$Showdown.show()
 			$StartButton.show()
 			$StartButton.set_position(Vector2(384, 504))
 			$SettingsLabel.show()
@@ -312,10 +331,12 @@ func _change_to_state(new_state):
 			$NameInput.hide()
 			$TokenInput.hide()
 			$TokenButton.hide()
+			$Showdown.hide()
 			$SaveButton.hide()
 			$StartButton.hide()
 			$SettingsLabel.hide()
 			$StatusLabel.hide()
+			$HideDataButton.hide()
 			$Exit.show()
 			$Reset.hide()
 			main.input_raffle_word()
@@ -330,9 +351,11 @@ func _change_to_state(new_state):
 			$TokenInput.hide()
 			$TokenButton.hide()
 			$SaveButton.hide()
+			$Showdown.hide()
 			$StartButton.hide()
 			$SettingsLabel.hide()
 			$StatusLabel.hide()
+			$HideDataButton.hide()
 			$Exit.hide()
 			$Reset.show()
 			current_state = states.GAME_END
@@ -348,8 +371,10 @@ func _change_to_state(new_state):
 			$TokenButton.hide()
 			$SaveButton.hide()
 			$StartButton.hide()
+			$Showdown.hide()
 			$SettingsLabel.show()
 			$StatusLabel.hide()
+			$HideDataButton.hide()
 			$Exit.show()
 			$StatusLabel.hide()
 			$Reset.hide()
@@ -367,12 +392,13 @@ func _change_to_state(new_state):
 			$TokenButton.hide()
 			$SaveButton.hide()
 			$StartButton.hide()
+			$Showdown.hide()
 			$SettingsLabel.hide()
 			$Exit.hide()
-			$NameInput.hide()
 			$StatusLabel.hide()
 			$Reset.hide()
 			$StatusLabel.hide()
+			$HideDataButton.hide()
 			$/root/Main/ManualMode.show()
 			current_state = states.INPUT_MANUAL
 
@@ -401,7 +427,6 @@ func _on_start_button_pressed():
 			_change_to_state(states.DISABLED)
 	else:
 		_change_to_state(states.DISABLED)
-		game.handle_auto_start()
 
 func _on_token_button_pressed():
 	OS.shell_open("https://oauth.picarto.tv/chat/bot")
@@ -429,3 +454,17 @@ func _on_button_3_pressed():
 	var selected_items = ignore_user_list.get_selected_items()
 	for item in selected_items:
 		ignore_user_list.remove_item(item)
+
+func _on_hide_data_button_toggled(toggled_on: bool) -> void:
+	$NameInput.secret = toggled_on
+	$TokenInput.secret = toggled_on
+	if toggled_on:
+		$NameInput.placeholder_text = ""
+	else:
+		if current_state == states.INPUT_PICARTO:
+			$NameInput.placeholder_text = picarto_name
+		else:
+			$NameInput.placeholder_text = twitch_name
+
+func _on_showdown_toggled(toggled_on: bool) -> void:
+	showdown = toggled_on

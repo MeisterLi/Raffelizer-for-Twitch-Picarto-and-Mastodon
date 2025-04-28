@@ -10,4 +10,5 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if (started):
-		offset = t * 20
+		h_offset = t * 20
+		v_offset = t * 20

@@ -1,12 +1,11 @@
 extends Control
 signal start_button
-signal url_entered
 signal raffle_word_entered
 
 @onready var start_button_button : Button = $StartButton
 @onready var raffle_word: LineEdit = $RaffleWord
 @onready var raffle_word_label: Label = $RaffleWordLabel
-@onready var settings = $/root/Main/Settings
+@onready var settings_node : settings = $/root/Main/Settings
 @onready var websocket = $/root/Main/GameField/Websocket
 @onready var gameField = $/root/Main/GameField
 var state
@@ -58,29 +57,29 @@ func _on_setting_singleton_no_config():
 func _change_to_state(new_state):
 	match new_state:
 		states.SETTINGS:
-			settings.show()
+			settings_node.show()
 			hide()
 		states.INPUT_WORD:
 			show()
 			raffle_word.show()
-			if settings.mode == settings.modes.MASTODON:
+			if settings_node.mode == settings.modes.MASTODON:
 				_change_to_state(states.MASTODON_AUTORUN)
 		states.MASTODON_AUTORUN:
 			raffle_word.hide()
 			start_button_button.hide()
-			_fetch_toot(settings.toot_url)
+			_fetch_toot(settings_node.toot_url)
 		states.MANUAL_AUTORUN:
 			raffle_word.hide()
 			start_button_button.hide()
 			
 func _on_game_field_connected():
-	if settings.auto_timer == true:
+	if settings_node.auto_timer == true:
 		raffle_word_label.text = "Raffle Word: \n" + websocket.trigger_word
 	else:
 		raffle_word_label.text = "Raffle Word: \n" + raffle_word_text
 	raffle_word_label.show()
 	$RaffleWordLabel/Bounce.play("Bounce and tit")
-	settings.timer.start()
+	settings_node.timer.start()
 
 func _on_main_wait_for_raffle():
 	_change_to_state(states.INPUT_WORD)
@@ -91,7 +90,7 @@ func _fetch_toot(url, context = false, reblogs = false, faved = false):
 	var result = regex.search(url)
 	if !result:
 		print("Unable to parse Toot URL!")
-		settings.set_error("Unable to parse Toot URL!")
+		settings_node.set_error("Unable to parse Toot URL!")
 		return
 	var server = result.get_string(1)
 	var toot_id = result.get_string(2)
@@ -133,7 +132,7 @@ func _followers_fetched(_results, _response_code, _headers, body):
 	for entry in data:
 		print("Follower: " + entry["url"])
 		all_followers.append(entry["id"])
-	_fetch_toot(settings.toot_url, false, true)
+	_fetch_toot(settings_node.toot_url, false, true)
 
 func _toot_fetched(_results, _response_code, _headers, body):
 	_json.parse(body.get_string_from_utf8())
@@ -158,7 +157,7 @@ func _toot_reblogs_fetched(_results, _response_code, _headers, body):
 	for entry in data:
 		print("Reblog from: " + entry["url"])
 		all_boosts.append(entry["id"])
-	_fetch_toot(settings.toot_url, false, false, true)
+	_fetch_toot(settings_node.toot_url, false, false, true)
 
 func _toot_faves_fetched(_results, _response_code, _headers, body):
 	_json.parse(body.get_string_from_utf8())
@@ -186,9 +185,9 @@ func _user_fetched(_results, _response_code, _headers, body):
 	gameField.spawn_avatar(data["display_name"], "", data["avatar"], data["url"])
 
 func _evaluate_participants():
-	var boosts = settings.mastodon_boosted
-	var following = settings.mastodon_following
-	var faved = settings.mastodon_faved
+	var boosts = settings_node.mastodon_boosted
+	var following = settings_node.mastodon_following
+	var faved = settings_node.mastodon_faved
 	print("Following: " + str(following) + " Boosted: " + str(boosts) + " Faved: " + str(faved))
 	print("All Faves Size:" + str(all_faves.size()))
 	if following and boosts and faved:

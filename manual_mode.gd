@@ -5,7 +5,7 @@ extends Control
 @onready var previewSprite : TextureRect = $VBoxContainer/HBoxContainer2/PreviewSprite
 @onready var entry : LineEdit = $VBoxContainer/HBoxContainer2/LineEdit
 @onready var gameField = $/root/Main/GameField
-@onready var settings = $/root/Main/Settings
+@onready var settings_node : settings = $/root/Main/Settings
 @onready var main = $/root/Main
 @export var items : PackedScene
 var list_entries = []
@@ -20,12 +20,11 @@ func reset():
 	list_entries_json.clear()
 	
 func remove_item(index):
-	for entry in list_entries:
-		if entry[2] == index:
-			list_entries.erase(entry)
+	for list_entry in list_entries:
+		if list_entry[2] == index:
+			list_entries.erase(list_entry)
 
 func _on_file_dialog_file_selected(path):
-	var image_parsed = false
 	var image = Image.new()
 	var image_error = image.load(path)
 	current_path = path
@@ -54,13 +53,13 @@ func _on_start_button_button_down():
 	var item_list_entries = itemList.get_children()
 	for child in item_list_entries:
 		list_entries.append(child.get_data())
-	for entry in list_entries:
+	for list_entry in list_entries:
 		var image = Image.new()
-		var image_error = image.load(entry[1])
+		var image_error = image.load(list_entry[1])
 		if image_error == OK:
 			image.resize(64,64,Image.INTERPOLATE_LANCZOS)
 		var image_texture = ImageTexture.create_from_image(image)
-		gameField.spawn_avatar(entry[0], "", "", "", image_texture)
+		gameField.spawn_avatar(list_entry[0], "", "", "", image_texture)
 	var item_list_children = itemList.get_children()
 	for child in item_list_children:
 		child.queue_free()
@@ -90,15 +89,15 @@ func _on_load_dialog_file_selected(path):
 	var json = JSON.new()
 	var error = json.parse(text)
 	if error == OK:
-		for entry in json.data:
+		for list_entry in json.data:
 			var image = Image.new()
-			var image_error = image.load(entry[1])
-			current_path = entry[1]
+			var image_error = image.load(list_entry[1])
+			current_path = list_entry[1]
 			if image_error == OK:
 				image.resize(64,64,Image.INTERPOLATE_LANCZOS)
 			var texture = ImageTexture.create_from_image(image)
-			add_item(entry[0], texture, entry[1])
+			add_item(list_entry[0], texture, list_entry[1])
 
 func _on_exit_pressed():
-	settings._change_to_state(settings.states.SELECT_MODE)
+	settings_node._change_to_state(settings.states.SELECT_MODE)
 	hide()

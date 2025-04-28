@@ -1,15 +1,13 @@
 extends Node
 
 @onready var websocket : Node = $/root/Main/GameField/Websocket
-@onready var settings : Node = $/root/Main/Settings
-signal no_config
+@onready var settings_node : settings = $/root/Main/Settings
 signal start
 signal wait_for_raffle
-signal exit
 
 func _process(_delta):
 	if Input.is_action_just_pressed("transparency toggle"):
-		settings.toggle_transparency()
+		settings_node.toggle_transparency()
 		
 func input_raffle_word():
 	emit_signal("wait_for_raffle")
@@ -18,7 +16,7 @@ func start_game():
 	print("Start game called from main.gd")
 	websocket.start()
 	emit_signal("start")
-	if settings.auto_timer == true:
+	if settings_node.auto_timer == true:
 		$/root/Main/Settings/FightCooldown.start(280)
 
 func _on_ui_raffle_word_entered(word):
