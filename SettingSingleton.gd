@@ -4,7 +4,7 @@ class_name settings
 var config = ConfigFile.new()
 @onready var main = $/root/Main
 @onready var game_ui = $/root/Main/MainUi
-@onready var game = $/root/Main/GameField
+@onready var game : GameField = $/root/Main/GameField
 @onready var timer : Timer = $AutoTimer
 @onready var background = $/root/Main/Originaltournament
 @onready var color_rect = $/root/Main/ColorRect
@@ -75,8 +75,8 @@ func _on_manual_pressed():
 	_change_to_state(states.INPUT_MANUAL)
 	mode = modes.MANUAL
 	
-func set_error(error):
-	$ErrorText.set_error(error)
+func set_error(error : String, timeout : int = 3):
+	$ErrorText.set_error(error, timeout)
 	
 func _on_save_button_pressed():
 	var name_input = $NameInput.get_text().strip_edges(true, true)
@@ -244,6 +244,7 @@ func _change_to_state(new_state):
 			$Exit.hide()
 			$StatusLabel.text = "Select Mode"
 			$Reset.hide()
+			$Rerun.hide()
 			current_state = states.SELECT_MODE
 		states.INPUT_TWITCH:
 			$SettingEntry.hide()
@@ -269,6 +270,7 @@ func _change_to_state(new_state):
 			$StatusLabel.show()
 			$HideDataButton.show()
 			$Reset.hide()
+			$Rerun.hide()
 			$StatusLabel.text = "Input Twitch channel name!"
 			current_state = states.INPUT_TWITCH
 		states.INPUT_PICARTO:
@@ -296,6 +298,7 @@ func _change_to_state(new_state):
 			$StatusLabel.show()
 			$HideDataButton.show()
 			$Reset.hide()
+			$Rerun.hide()
 			$StatusLabel.text = "Input Picarto username and token!"
 			current_state = states.INPUT_PICARTO
 		states.INPUT_MASTODON:
@@ -318,6 +321,7 @@ func _change_to_state(new_state):
 			$NameInput.placeholder_text = "Input url to Mastodon Toot!"
 			$StatusLabel.show()
 			$Reset.hide()
+			$Rerun.hide()
 			$StatusLabel.text = "Input url to Mastodon Toot!"
 			current_state = states.INPUT_MASTODON
 		states.DISABLED:
@@ -339,6 +343,7 @@ func _change_to_state(new_state):
 			$HideDataButton.hide()
 			$Exit.show()
 			$Reset.hide()
+			$Rerun.hide()
 			main.input_raffle_word()
 			current_state = states.DISABLED
 		states.GAME_END:
@@ -358,6 +363,7 @@ func _change_to_state(new_state):
 			$HideDataButton.hide()
 			$Exit.hide()
 			$Reset.show()
+			$Rerun.show()
 			current_state = states.GAME_END
 		states.SETTINGS:
 			$SettingsPanel.show()
@@ -378,6 +384,7 @@ func _change_to_state(new_state):
 			$Exit.show()
 			$StatusLabel.hide()
 			$Reset.hide()
+			$Rerun.hide()
 			current_state = states.SETTINGS
 		states.INPUT_MANUAL:
 			$SettingEntry.hide()
@@ -397,6 +404,7 @@ func _change_to_state(new_state):
 			$Exit.hide()
 			$StatusLabel.hide()
 			$Reset.hide()
+			$Rerun.hide()
 			$StatusLabel.hide()
 			$HideDataButton.hide()
 			$/root/Main/ManualMode.show()
@@ -468,3 +476,8 @@ func _on_hide_data_button_toggled(toggled_on: bool) -> void:
 
 func _on_showdown_toggled(toggled_on: bool) -> void:
 	showdown = toggled_on
+
+func _on_rerun_pressed() -> void:
+	game_ui._on_menu_button_pressed()
+	_on_start_button_pressed()
+	game.re_run()

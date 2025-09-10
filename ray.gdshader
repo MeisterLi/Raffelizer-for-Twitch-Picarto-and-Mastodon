@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
-uniform float thickness = 0.015; 
-uniform float jaggedness = 30.0; 
-uniform float speed = 2.0; 
+uniform float thickness = 0.015;
+uniform float jaggedness = 30.0;
+uniform float speed = 2.0;
 uniform vec4 lightning_color : source_color = vec4(0.8, 0.9, 1.0, 1.0);
 
 float noise(vec2 uv) {

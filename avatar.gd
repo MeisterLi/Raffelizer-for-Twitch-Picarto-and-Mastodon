@@ -53,7 +53,21 @@ func start():
 		manual_start()
 	else:
 		get_picarto_avatar_url()
-
+		
+func reset():
+	moving_to_center = false
+	knock_position = Vector2.ZERO
+	knocked = false
+	speed = 200
+	winner = false
+	dodge = false
+	waiting = true
+	ko = false
+	firstRun = false
+	sprite.set_rotation(deg_to_rad(0))
+	$Stars.hide()
+	start()
+	
 func get_free_spawn_location(being_knocked):
 	var possible_position = get_spawn_location(being_knocked)
 	var overlapping = false

@@ -1,4 +1,5 @@
 extends Node
+class_name Settings
 
 signal connected
 const twitch_client_id = "0g3zp9jikletk9afwneyw75iobuslx"
@@ -149,6 +150,9 @@ func handle_picarto(packet):
 	var _err = _json.parse(packet)
 	var message = _json.get_data()
 	print(str(message))
+	if message.has('success'):
+		if message['success'] == false:
+			trigger_error()
 	if message.has('m'):
 		if typeof(message["m"]) == TYPE_ARRAY:
 			check_for_trigger_word(trigger_word, message["m"][0])
@@ -167,7 +171,10 @@ func check_for_trigger_word(word, directory):
 
 func trigger_animation(item, custom_user_name):
 	gamefield.trigger_animation(item, custom_user_name)
-	
+
+func trigger_error() -> void:
+	settings_node.set_error("Picarto authentication failed! \n Make sure to use your Login name, not your channel name!", 20)
+
 func _on_ping_pong_timeout():
 	_client.send_text("PING")
 

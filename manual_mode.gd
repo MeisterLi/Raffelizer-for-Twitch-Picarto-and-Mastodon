@@ -8,6 +8,7 @@ extends Control
 @onready var settings_node : settings = $/root/Main/Settings
 @onready var main = $/root/Main
 @export var items : PackedScene
+var default_image := preload("res://Images/icon.png")
 var list_entries = []
 var list_entries_json = []
 var current_path
@@ -55,19 +56,21 @@ func _on_start_button_button_down():
 		list_entries.append(child.get_data())
 	for list_entry in list_entries:
 		var image = Image.new()
-		var image_error = image.load(list_entry[1])
-		if image_error == OK:
-			image.resize(64,64,Image.INTERPOLATE_LANCZOS)
-		var image_texture = ImageTexture.create_from_image(image)
+		var image_texture
+		if list_entry[1] == null:
+			image_texture = default_image
+		else:
+			var image_error = image.load(list_entry[1])
+			if image_error == OK:
+				image.resize(64,64,Image.INTERPOLATE_LANCZOS)
+			image_texture = ImageTexture.create_from_image(image)
 		gameField.spawn_avatar(list_entry[0], "", "", "", image_texture)
 	var item_list_children = itemList.get_children()
 	for child in item_list_children:
 		child.queue_free()
-	
 
 func _on_save_button_pressed():
 	$SaveDialog.show()
-
 
 func _on_save_dialog_file_selected(path):
 	var item_list_entries = itemList.get_children()

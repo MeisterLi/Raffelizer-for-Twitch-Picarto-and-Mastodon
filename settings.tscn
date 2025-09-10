@@ -497,6 +497,15 @@ theme_override_font_sizes/font_size = 40
 text = "Reset"
 metadata/_edit_layout_mode = 1
 
+[node name="Rerun" type="Button" parent="."]
+layout_mode = 0
+offset_left = 456.0
+offset_right = 571.0
+offset_bottom = 63.0
+theme_override_font_sizes/font_size = 40
+text = "Re-Run"
+metadata/_edit_layout_mode = 1
+
 [node name="FightCooldown" type="Timer" parent="."]
 one_shot = true
 
@@ -544,6 +553,7 @@ wait_time = 4.0
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Rerun" to="." method="_on_rerun_pressed"]
 [connection signal="timeout" from="FightCooldown" to="." method="_on_fight_cooldown_timeout"]
 [connection signal="timeout" from="AutoTimer" to="." method="_on_auto_timer_timeout"]
 [connection signal="pressed" from="SettingEntry" to="." method="_on_setting_entry_pressed"]

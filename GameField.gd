@@ -43,14 +43,29 @@ func _ready() -> void:
 	reset()
 		
 func reset() -> void:
-	get_tree().get_root().set_transparent_background(true)
 	$CenterPosition.position = screen / 2
 	$AutoStartTimer.stop()
 	camera_2d.zoom = Vector2(1.0, 1.0)
 	winner_text.global_position.y = 208.0
 	winner_text.text = ""
+	showdown.reset()
 	if debug_timer:
 		$DebugTimer.start()
+		
+func re_run() -> void:
+	$CenterPosition.position = screen / 2
+	$AutoStartTimer.stop()
+	camera_2d.zoom = Vector2(1.0, 1.0)
+	winner_text.global_position.y = 208.0
+	winner_text.text = ""
+	fighting = false
+	fight_started = false
+	knocked_avatars = []
+	positions = []
+	winner = ""
+	showdown.reset()
+	for avatar : Avatar in spawned_avatars:
+		avatar.reset()
 
 func handle_auto_start() -> void:
 	if settings_node.auto_timer == true:
@@ -102,7 +117,7 @@ func spawn_avatar(avatar_name, twitch_token, picarto_image_url, mastodon_home = 
 	elif avatar_name in participating_users:
 		pass
 	else:
-		var avatar : Area2D = avatars.instantiate()
+		var avatar : Avatar = avatars.instantiate()
 		
 		add_child(avatar)
 		avatar.user_name = avatar_name
